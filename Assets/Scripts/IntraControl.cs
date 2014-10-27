@@ -1,40 +1,34 @@
-﻿using UnityEngine;
+﻿using ScreenMap;
 using System.Collections;
+using UnityEngine;
 
-/** Car & track selection Menu */
-public class IntraControl : ScreenGUI {
+/** Car & track selection menu */
+public class IntraControl : MonoBehaviour {
 	public Transform carSpot;
 	public GameObject[] carList;
-	public int carSelected = 0; // points to carList
-	
+
 	void Start() {
-		instantiateCar();
+        carSelector = new Selector< GameObject >(carList,
+                                                 delegate (GameObject model) {
+            RaceControl.carModelPreset = model;
+            if (carObject != null) Destroy(carObject);
+            carObject = Instantiate(model, carSpot.position, carSpot.rotation) 
+                as GameObject;
+        });
 	}		
 	
 	void OnGUI () {
-		if (button(5, 35, 5, 30, "<<")) {
-			if (--carSelected < 0) 
-				carSelected = carList.Length - 1;
-			instantiateCar();
-		}
-		if (button(-5, 35, 5, 30, ">>")) {
-			if (++carSelected > carList.Length - 1) 
-				carSelected = 0;
-			instantiateCar();
-		}
-		if (button(35, -5, 30, 10, "START GAME")) {
-			RaceControl.carModelPreset = carList[carSelected];
+        var map = this.ScreenRect();
+        GUI.skin.button.fontSize = 25;
+
+		if (GUI.Button(map.X(1, 7).Y(2, 3), "<<"))
+            carSelector.previous();
+        if (GUI.Button(map.X(-1, 7).Y(2, 3), ">>"))
+            carSelector.previous();
+        if (GUI.Button(map.X(2, 3).Y(-1, 5), "START GAME"))
 			Application.LoadLevel("ForestRing");
-		}
 	}
-
-	void instantiateCar() {
-		if (currentCarObject != null)
-			Destroy(currentCarObject);
-		currentCarObject = Instantiate(
-			carList[carSelected], carSpot.position, carSpot.rotation) 
-			as GameObject;
-	}
-
-	GameObject currentCarObject;
+    
+    ISelector carSelector;
+    GameObject carObject;
 }

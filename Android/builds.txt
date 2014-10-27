@@ -1,0 +1,2 @@
+4.0.3+ openGL 2.0 - Ise Cream Sandwich + Jelly Bean
+4.4.x+ openGL 3.0 - KitKat (because of OpenGL)

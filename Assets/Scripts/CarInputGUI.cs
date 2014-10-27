@@ -1,15 +1,19 @@
-﻿using UnityEngine;
+﻿using ScreenMap;
 using System.Collections;
+using UnityEngine;
 
 /** Translates Input to special car moves (singletone) */
-public class CarInputGUI : ScreenGUI, ICarInput {
+public class CarInputGUI : MonoBehaviour, ICarInput {
 	public bool isEnabled = true;
 
 	void OnGUI() {
-		if (isEnabled) {
-			isBreak = repeatButton(5, 80, 25, 15, "BREAKS");
-			isGas = repeatButton(-5, 80, 25, 15, "ACCELERATOR");
-			valueLook = scroll(20, 5, 60, 10, valueLook, -1, 1);
+        if (isEnabled) {
+            var map = this.ScreenRect();
+            GUI.skin.button.fontSize = 15;
+
+			isBreak = GUI.RepeatButton(map.X(1, 4).Y(4, 4), "BREAKS");
+            isGas = GUI.RepeatButton(map.X(-1, 4).Y(4, 4), "ACCELERATOR");
+            valueLook = GUI.HorizontalSlider(map.X(2, 5, 3).Y(1, 4), valueLook, -1, +1);
 		}
 	}
 	
@@ -23,7 +27,9 @@ public class CarInputGUI : ScreenGUI, ICarInput {
 			(isGas ? 1 : 0) + (isBreak ? -1 : 0);
 	}
 
-	public float GetLook() { return valueLook; }
+	public float GetLook() { 
+        return valueLook * PlayerPrefs.GetInt("input_look", 2);
+    }
 
 	bool isGas, isBreak;
 	float valueLook;

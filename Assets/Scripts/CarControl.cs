@@ -1,14 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-/** Interface for CarInput controllers */
+/** Interface for car input controllers */
 public interface ICarInput {
 	float GetStearing();
 	float GetPedals();
 	float GetLook();
 }
 
-/** Adapter for InpulControll */
+/** Adapter for @interface ICarInput */
 [System.Serializable]
 public class Controls {
 	public float stearPower = 25, stearSensivity = 4;
@@ -78,8 +79,8 @@ public class CarControl : MonoBehaviour {
 	public Controls control;
 	public Effects effects;
 	public Wheels wheels;
-	public Transform stearingWheel;
-	public Transform watchPoint;
+    public Transform stearingWheel, watchPoint;
+    public Dictionary<string, ISelector> options;
 
 	void Start() { control.Setup(rigidbody); }
 	void Update() { wheels.Update(); }

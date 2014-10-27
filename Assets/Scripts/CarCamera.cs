@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 /** Makes camera effects to simulate driver expirience */
 public class CarCamera : MonoBehaviour {
 	public float xMove = 1, zMove = 1;
 	public float angleMove = 10, angleRot = 15, angleLook = 15;
-	public CarControl carToWatch; // car to follow by default
-	
+	public CarControl carToWatch; /**< car to follow by default */
+
 	void Update () {
 		if (carToWatch == null) return;
 		var point = carToWatch.watchPoint.transform.position;
@@ -23,6 +23,6 @@ public class CarCamera : MonoBehaviour {
 		var az = rotor.z - input.GetStearing() * angleRot;
 
 		transform.position = new Vector3(x, point.y, z);
-		transform.eulerAngles = new Vector3 (rotor.x, ay, az);
+		transform.eulerAngles = new Vector3(rotor.x, ay, az);
 	}
 }

@@ -1,18 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
+using UnityEngine;
+using ScreenMap;
 
 /** Controls game processes */
-public class RaceControl : ScreenGUI {
+public class RaceControl : MonoBehaviour {
 	public GameObject carModel;
 	public Transform carSpot;
-	public CarInputGUI carInput; // is here to be provided to car
-	public CarCamera carCamera; // is here to receive a new car
+	public CarInputGUI carInput; /**< is here to be provided to car */
+	public CarCamera carCamera; /**< is here to receive a new car */
 	public Transform[] mapRoute; 
 
-	public static GameObject carModelPreset; // one time carModel replace
-	public static bool isRunning { // public?
-		get { return Time.timeScale != 0; }
-		set { Time.timeScale = value ? 1 : 0; }
+	public static GameObject carModelPreset; /** one time @var carModel replacer */
+
+	public bool isRunning {
+        set {
+            carInput.isEnabled = value;
+            Time.timeScale = value ? 1 : 0;
+        }
+        get { return Time.timeScale != 0; }
 	}
 	
 	void Start () {
@@ -35,43 +41,37 @@ public class RaceControl : ScreenGUI {
 	}
 
 	void OnGUI() {
-		if (isRunning) {
-			if (button(-5, 5, 10, 5, "||"))
-				isRunning = false;
-		} else {
-			if (endOfTheGame == null)
-				pauseMenu();
-			else
-				endMenu();
-		}
-		button(5, 5, 10, 5, playTime.ToString());
-	}
-	
-	void pauseMenu() {
-		if (button(25, 10, 50, 20, "RESUME"))
-			isRunning = true;
-		quitMenu();
-	}
+        var top = this.ScreenRect().Y(1, 8);
+        GUI.skin.box.fontSize = 20;
+        GUI.skin.button.fontSize = 20;
 
-	void endMenu() {
-		button(25, 10, 50, 20, endOfTheGame);
-		quitMenu();
-	}
+        GUI.Box(top.X(1, 5), playTime.ToString("0.00"));
+        if (isRunning) {
+            if (GUI.Button(top.X(-1, 5), "PAUSE"))
+                isRunning = false;
+            return;
+        }
 
-	void quitMenu() {
-		if (button(25, 40, 50, 20, "RESTART")) {
-			carModelPreset = carModel;
-			isRunning = true;
-			Application.LoadLevel(Application.loadedLevel);
-		}
-		if (button(25, 70, 25, 20, "MAIN MENU")) {
-			isRunning = true;
-			Application.LoadLevel("MainMenu");
-		}
-		if (button(55, 70, 20, 20, "QUIT")) {
-			isRunning = true;
-			Application.Quit();
-		}
+        var menu = this.ScreenRect().X(2, 4, 2);
+		if (endOfTheGame == null) {
+            if (GUI.Button(menu.Y(1, 3), "RESUME"))
+                isRunning = true;
+        } else {
+            GUI.Button(menu.Y(1, 3), endOfTheGame);
+        }
+        if (GUI.Button(menu.Y(2, 3),  "RESTART")) {
+            carModelPreset = carModel;
+            isRunning = true;
+            Application.LoadLevel(Application.loadedLevel);
+        }
+        if (GUI.Button(menu.Y(-1, 3).X(1, 2, border: 0), "MAIN MENU")) {
+            isRunning = true;
+            Application.LoadLevel("MainMenu");
+        }
+        if (GUI.Button(menu.Y(-1, 3).X(-1, 2, border: 0), "QUIT")) {
+            isRunning = true;
+            Application.Quit();
+        }
 	}
 
 	float playTime;

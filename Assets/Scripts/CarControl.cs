@@ -14,13 +14,25 @@ public interface ICarInput {
 public class Controls {
 	public float stearPower = 25, stearSensivity = 4;
 	public float frontDrive = 0, rearDrive = 50;
-	public float centerMassDrop = 0.5f;
+	public float centerMassY = -0.9f;
 	public ICarInput input;
 
-	public void Setup(Rigidbody body) {
-		var c = body.centerOfMass;
-		body.centerOfMass = new Vector3(c.x, c.y - centerMassDrop, c.z);
-	}
+    public void Setup(Rigidbody body) { 
+        body.centerOfMass = new Vector3(
+            body.centerOfMass.x, centerMassY, body.centerOfMass.z);
+    }
+
+    public override string ToString() {
+        return string.Join("\n", new string[] {
+            "Patrol type: gas",
+            "Front drive: " + frontDrive,
+            "Rear drive: " + rearDrive,
+            "Transmission: S",
+            "Stearing amp: " + stearPower,
+            "Center mass: " + (-centerMassY),
+            "Lights: None",
+        });
+    }
 
 	public float GetFrontTorque() { return frontDrive * input.GetPedals(); }
 	public float GetRearTorque() { return rearDrive * input.GetPedals(); }
@@ -81,6 +93,17 @@ public class CarControl : MonoBehaviour {
 	public Wheels wheels;
     public Transform stearingWheel, watchPoint;
     public Dictionary<string, ISelector> options;
+    public enum CarType { PLAYER, RACER, TRAFIC };
+    public CarType type;
+
+    public static CarControl New(GameObject model, Transform place, ICarInput input,
+                                 CarType type = CarType.TRAFIC) {
+        var car = (Instantiate(model, place.position, place.rotation)
+                   as GameObject).GetComponent<CarControl>();
+        car.control.input = input;
+        car.type = type;
+        return car;
+    }
 
 	void Start() { control.Setup(rigidbody); }
 	void Update() { wheels.Update(); }
@@ -92,5 +115,5 @@ public class CarControl : MonoBehaviour {
 		wheels.SetStearing(control.GetStearing());
 		wheels.SetTorque(control.GetFrontTorque(), control.GetRearTorque());
 		effects.Engine(audio, wheels.CarSpeed());
-	}	
+	}
 }

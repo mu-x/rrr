@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using UnityEngine;
 
 /** Method set to map screen for GUI */
@@ -30,31 +31,53 @@ namespace ScreenMap {
 
 /** Interface to change any changable value in game */
 public interface ISelector {
-    void next();
-    void previous();
+    void Next();
+    void Previous();
 }
 
 /** Generic @interface ISelector for any kind of objects in game */
 public class Selector<T> : ISelector {
     public delegate void Changed(T item);
+    public delegate void Round();
 
-    public Selector(T[] items, Changed changed) {
+    /** Iterates over @param items (default @param selected) and invokes 
+     *  @rapam changed. Also invokes @param round when hits 1st element */
+    public Selector(T[] items, T selected, 
+                    Changed changed = null, Round round = null) {
         this.items = items;
         this.changed = changed;
-        if (changed != null) changed(items[selected]);
+        this.round = round;
+
+        for(int i = 0; i < items.Length; ++i)
+            if (items[i].Equals(selected))
+                this.selected = i;
+
+        if (changed != null) 
+            changed(items[this.selected]);
     }
 
-    public void next() {
-        if (++selected >= items.Length) selected = 0;
-        if (changed != null) changed(items[selected]);
+    public void Next() {
+        if (++selected == items.Length) {
+            selected = 0;
+            if(round != null) round();
+        }
+
+        if (changed != null) 
+            changed(items[selected]);
     }
 
-    public void previous() {
-        if (--selected < 0) selected = items.Length - 1;
-        if (changed != null) changed(items[selected]);
+    public void Previous() {
+        if (--selected < 0) {
+            selected += items.Length;
+            if(round != null) round();
+        }
+
+        if (changed != null) 
+            changed(items[selected]);
     }
 
     T[] items;
     Changed changed;
+    Round round;
     int selected = 0;
 }

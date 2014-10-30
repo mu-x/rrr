@@ -6,6 +6,7 @@ using UnityEngine;
 public class IntraControl : MonoBehaviour {
 	public Transform carSpot;
 	public GameObject[] carList;
+	public string[] levelNames;
 
     RaceMode[] RACE_MODES = new RaceMode[] {
         new FreeRaceMode(), /* Default */
@@ -47,7 +48,7 @@ public class IntraControl : MonoBehaviour {
         var car = RaceControl.carModel.GetComponent<CarControl>();
         GUI.Box(lower.X(1, 4), car.name + "\n-\n" + car.control);
         if (GUI.Button(lower.X(-1, 4), "START\nGAME"))
-            Application.LoadLevel("ForestRing");
+			Application.LoadLevel(levelNames[0]);
 
         if (GUI.Button(bottom.X(1, 5, border: 0), "<")) modeSelector.Previous();
         GUI.Box(bottom.X(2, 5, 3, border: 0), RaceControl.raceMode.ToString());

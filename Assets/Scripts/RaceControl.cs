@@ -63,7 +63,7 @@ public class RaceControl : MonoBehaviour {
         }
         if (GUI.Button(menu.Y(-1, 3), "MAIN MENU")) {
             isRunning = true;
-            Application.LoadLevel("MainMenu");
+            Application.LoadLevel(0);
         }
 	}
 

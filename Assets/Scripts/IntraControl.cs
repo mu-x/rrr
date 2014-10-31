@@ -43,7 +43,7 @@ public class IntraControl : MonoBehaviour {
         var lower = this.ScreenRect().Y(-2, 4, 2);
         var bottom = lower.Y(-1, 3).X(2, 4, 2, border: 0);
         GUI.skin.box.fontSize = 
-        GUI.skin.button.fontSize = (int)bottom.height / 3;
+        GUI.skin.button.fontSize = (int)(bottom.height / 3.5);
 
         var car = RaceControl.carModel.GetComponent<CarControl>();
         GUI.Box(lower.X(1, 4), car.name + "\n-\n" + car.control);

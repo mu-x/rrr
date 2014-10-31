@@ -1,0 +1,262 @@
+fileFormatVersion: 2
+guid: 6b19ff3590d6bf34ab7f49496617c056
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Cube1
+    100002: Cube17
+    100004: Cube26
+    100006: Cube26_co
+    100008: Cube26_co 1
+    100010: Cube26_co0
+    100012: Cube26_co0 1
+    100014: Cube26_co1
+    100016: Cube26_co1 1
+    100018: Cube26_co2
+    100020: Cube26_co2 1
+    100022: Cube26_co3
+    100024: Cube26_co3 1
+    100026: Cube26_co4
+    100028: Cube26_co6
+    100030: Cube26_co7
+    100032: Cube26_co7 1
+    100034: Cube26_co9
+    100036: Cube26_se6
+    100038: Cube26_se7
+    100040: Cylinder10
+    100042: Cylinder11
+    100044: Cylinder12
+    100046: Cylinder12 1
+    100048: Cylinder13
+    100050: Cylinder13 1
+    100052: Cylinder14
+    100054: Cylinder15
+    100056: Cylinder28
+    100058: PanelFron
+    100060: PanelFron0
+    100062: PanelFron1
+    100064: PanelFron_
+    100066: //RootNode
+    100068: SeatFR
+    100070: SeatFR_co3
+    100072: SeatFR_co5
+    100074: StearingWh
+    100076: tetrahedr
+    100078: tetrahedr 1
+    100080: tetrahedrc
+    400000: Cube1
+    400002: Cube17
+    400004: Cube26
+    400006: Cube26_co
+    400008: Cube26_co 1
+    400010: Cube26_co0
+    400012: Cube26_co0 1
+    400014: Cube26_co1
+    400016: Cube26_co1 1
+    400018: Cube26_co2
+    400020: Cube26_co2 1
+    400022: Cube26_co3
+    400024: Cube26_co3 1
+    400026: Cube26_co4
+    400028: Cube26_co6
+    400030: Cube26_co7
+    400032: Cube26_co7 1
+    400034: Cube26_co9
+    400036: Cube26_se6
+    400038: Cube26_se7
+    400040: Cylinder10
+    400042: Cylinder11
+    400044: Cylinder12
+    400046: Cylinder12 1
+    400048: Cylinder13
+    400050: Cylinder13 1
+    400052: Cylinder14
+    400054: Cylinder15
+    400056: Cylinder28
+    400058: PanelFron
+    400060: PanelFron0
+    400062: PanelFron1
+    400064: PanelFron_
+    400066: //RootNode
+    400068: SeatFR
+    400070: SeatFR_co3
+    400072: SeatFR_co5
+    400074: StearingWh
+    400076: tetrahedr
+    400078: tetrahedr 1
+    400080: tetrahedrc
+    2300000: Cube1
+    2300002: Cube17
+    2300004: Cube26
+    2300006: Cube26_co
+    2300008: Cube26_co 1
+    2300010: Cube26_co0
+    2300012: Cube26_co0 1
+    2300014: Cube26_co1
+    2300016: Cube26_co1 1
+    2300018: Cube26_co2
+    2300020: Cube26_co2 1
+    2300022: Cube26_co3
+    2300024: Cube26_co3 1
+    2300026: Cube26_co4
+    2300028: Cube26_co6
+    2300030: Cube26_co7
+    2300032: Cube26_co7 1
+    2300034: Cube26_co9
+    2300036: Cube26_se6
+    2300038: Cube26_se7
+    2300040: Cylinder10
+    2300042: Cylinder11
+    2300044: Cylinder12
+    2300046: Cylinder12 1
+    2300048: Cylinder13
+    2300050: Cylinder13 1
+    2300052: Cylinder14
+    2300054: Cylinder15
+    2300056: Cylinder28
+    2300058: PanelFron
+    2300060: PanelFron0
+    2300062: PanelFron1
+    2300064: PanelFron_
+    2300066: SeatFR
+    2300068: SeatFR_co3
+    2300070: SeatFR_co5
+    2300072: StearingWh
+    2300074: tetrahedr
+    2300076: tetrahedr 1
+    2300078: tetrahedrc
+    3300000: Cube1
+    3300002: Cube17
+    3300004: Cube26
+    3300006: Cube26_co
+    3300008: Cube26_co 1
+    3300010: Cube26_co0
+    3300012: Cube26_co0 1
+    3300014: Cube26_co1
+    3300016: Cube26_co1 1
+    3300018: Cube26_co2
+    3300020: Cube26_co2 1
+    3300022: Cube26_co3
+    3300024: Cube26_co3 1
+    3300026: Cube26_co4
+    3300028: Cube26_co6
+    3300030: Cube26_co7
+    3300032: Cube26_co7 1
+    3300034: Cube26_co9
+    3300036: Cube26_se6
+    3300038: Cube26_se7
+    3300040: Cylinder10
+    3300042: Cylinder11
+    3300044: Cylinder12
+    3300046: Cylinder12 1
+    3300048: Cylinder13
+    3300050: Cylinder13 1
+    3300052: Cylinder14
+    3300054: Cylinder15
+    3300056: Cylinder28
+    3300058: PanelFron
+    3300060: PanelFron0
+    3300062: PanelFron1
+    3300064: PanelFron_
+    3300066: SeatFR
+    3300068: SeatFR_co3
+    3300070: SeatFR_co5
+    3300072: StearingWh
+    3300074: tetrahedr
+    3300076: tetrahedr 1
+    3300078: tetrahedrc
+    4300000: tetrahedrc
+    4300002: PanelFron_
+    4300004: Cube26_co3
+    4300006: Cube26_co2
+    4300008: Cube26_co1
+    4300010: Cube26_co0
+    4300012: SeatFR
+    4300014: PanelFron
+    4300016: StearingWh
+    4300018: SeatFR_co3
+    4300020: SeatFR_co5
+    4300022: Cube17
+    4300024: Cylinder10
+    4300026: Cylinder11
+    4300028: Cylinder12
+    4300030: Cylinder13
+    4300032: Cube26
+    4300034: Cube26_co7
+    4300036: Cylinder28
+    4300038: Cube26_co9
+    4300040: Cube26_co0
+    4300042: Cube26_co1
+    4300044: Cube26_co
+    4300046: tetrahedr
+    4300048: tetrahedr
+    4300050: PanelFron0
+    4300052: PanelFron1
+    4300054: Cylinder12
+    4300056: Cylinder13
+    4300058: Cylinder14
+    4300060: Cylinder15
+    4300062: Cube26_se6
+    4300064: Cube26_se7
+    4300066: Cube26_co2
+    4300068: Cube26_co3
+    4300070: Cube26_co4
+    4300072: Cube26_co
+    4300074: Cube26_co6
+    4300076: Cube26_co7
+    4300078: Cube1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .100000001
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

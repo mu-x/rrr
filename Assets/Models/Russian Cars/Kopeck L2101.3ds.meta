@@ -1,0 +1,247 @@
+fileFormatVersion: 2
+guid: 7d9e97e0d11ac9240b1772c2d8386908
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Cube1
+    100002: Cube17
+    100004: Cube26
+    100006: Cube26_co0
+    100008: Cube26_co1
+    100010: Cube26_co2
+    100012: Cube26_co3
+    100014: Cube26_co4
+    100016: Cube26_co5
+    100018: Cube26_co5 1
+    100020: Cube26_co6
+    100022: Cube26_co7
+    100024: Cube26_co7 1
+    100026: Cube26_co9
+    100028: Cube26_se6
+    100030: Cube26_se7
+    100032: Cylinder10
+    100034: Cylinder11
+    100036: Cylinder12
+    100038: Cylinder12 1
+    100040: Cylinder13
+    100042: Cylinder13 1
+    100044: Cylinder14
+    100046: Cylinder15
+    100048: Cylinder28
+    100050: Cylinder34
+    100052: //RootNode
+    100054: PanelFron
+    100056: PanelFron0
+    100058: PanelFron1
+    100060: SeatFR
+    100062: SeatFR_co3
+    100064: SeatFR_co5
+    100066: sphere24
+    100068: sphere24_c
+    100070: StearingWh
+    100072: tetrahedr
+    100074: tetrahedr_
+    400000: Cube1
+    400002: Cube17
+    400004: Cube26
+    400006: Cube26_co0
+    400008: Cube26_co1
+    400010: Cube26_co2
+    400012: Cube26_co3
+    400014: Cube26_co4
+    400016: Cube26_co5
+    400018: Cube26_co5 1
+    400020: Cube26_co6
+    400022: Cube26_co7
+    400024: Cube26_co7 1
+    400026: Cube26_co9
+    400028: Cube26_se6
+    400030: Cube26_se7
+    400032: Cylinder10
+    400034: Cylinder11
+    400036: Cylinder12
+    400038: Cylinder12 1
+    400040: Cylinder13
+    400042: Cylinder13 1
+    400044: Cylinder14
+    400046: Cylinder15
+    400048: Cylinder28
+    400050: Cylinder34
+    400052: //RootNode
+    400054: PanelFron
+    400056: PanelFron0
+    400058: PanelFron1
+    400060: SeatFR
+    400062: SeatFR_co3
+    400064: SeatFR_co5
+    400066: sphere24
+    400068: sphere24_c
+    400070: StearingWh
+    400072: tetrahedr
+    400074: tetrahedr_
+    2300000: Cube1
+    2300002: Cube17
+    2300004: Cube26
+    2300006: Cube26_co0
+    2300008: Cube26_co1
+    2300010: Cube26_co2
+    2300012: Cube26_co3
+    2300014: Cube26_co4
+    2300016: Cube26_co5
+    2300018: Cube26_co5 1
+    2300020: Cube26_co6
+    2300022: Cube26_co7
+    2300024: Cube26_co7 1
+    2300026: Cube26_co9
+    2300028: Cube26_se6
+    2300030: Cube26_se7
+    2300032: Cylinder10
+    2300034: Cylinder11
+    2300036: Cylinder12
+    2300038: Cylinder12 1
+    2300040: Cylinder13
+    2300042: Cylinder13 1
+    2300044: Cylinder14
+    2300046: Cylinder15
+    2300048: Cylinder28
+    2300050: Cylinder34
+    2300052: PanelFron
+    2300054: PanelFron0
+    2300056: PanelFron1
+    2300058: SeatFR
+    2300060: SeatFR_co3
+    2300062: SeatFR_co5
+    2300064: sphere24
+    2300066: sphere24_c
+    2300068: StearingWh
+    2300070: tetrahedr
+    2300072: tetrahedr_
+    3300000: Cube1
+    3300002: Cube17
+    3300004: Cube26
+    3300006: Cube26_co0
+    3300008: Cube26_co1
+    3300010: Cube26_co2
+    3300012: Cube26_co3
+    3300014: Cube26_co4
+    3300016: Cube26_co5
+    3300018: Cube26_co5 1
+    3300020: Cube26_co6
+    3300022: Cube26_co7
+    3300024: Cube26_co7 1
+    3300026: Cube26_co9
+    3300028: Cube26_se6
+    3300030: Cube26_se7
+    3300032: Cylinder10
+    3300034: Cylinder11
+    3300036: Cylinder12
+    3300038: Cylinder12 1
+    3300040: Cylinder13
+    3300042: Cylinder13 1
+    3300044: Cylinder14
+    3300046: Cylinder15
+    3300048: Cylinder28
+    3300050: Cylinder34
+    3300052: PanelFron
+    3300054: PanelFron0
+    3300056: PanelFron1
+    3300058: SeatFR
+    3300060: SeatFR_co3
+    3300062: SeatFR_co5
+    3300064: sphere24
+    3300066: sphere24_c
+    3300068: StearingWh
+    3300070: tetrahedr
+    3300072: tetrahedr_
+    4300000: Cube26_co7
+    4300002: Cube26_co6
+    4300004: Cube26_co5
+    4300006: Cube26_co4
+    4300008: Cube26_co3
+    4300010: Cube26_co2
+    4300012: Cube26_se7
+    4300014: Cube26_se6
+    4300016: Cylinder15
+    4300018: Cylinder14
+    4300020: Cylinder13
+    4300022: Cylinder12
+    4300024: PanelFron1
+    4300026: PanelFron0
+    4300028: tetrahedr_
+    4300030: tetrahedr
+    4300032: Cube26_co5
+    4300034: Cylinder34
+    4300036: Cube26_co1
+    4300038: Cube26_co0
+    4300040: Cube26_co9
+    4300042: Cylinder28
+    4300044: Cube26_co7
+    4300046: Cube26
+    4300048: sphere24_c
+    4300050: sphere24
+    4300052: Cylinder13
+    4300054: Cylinder12
+    4300056: Cylinder11
+    4300058: Cylinder10
+    4300060: Cube17
+    4300062: SeatFR_co5
+    4300064: SeatFR_co3
+    4300066: StearingWh
+    4300068: PanelFron
+    4300070: SeatFR
+    4300072: Cube1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .100000001
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

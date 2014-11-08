@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -6,7 +6,7 @@ using UnityEngine;
 public class CheckPoint : MonoBehaviour {
     public delegate void Enter();
     public Enter playerEnter;
-
+    /*
     public bool isEnabled {
         get { return collider.enabled || renderer.enabled; }
         set { collider.enabled = renderer.enabled = value; }
@@ -24,4 +24,5 @@ public class CheckPoint : MonoBehaviour {
     }
 
     void Start() { isEnabled = false; }
+    */
 }

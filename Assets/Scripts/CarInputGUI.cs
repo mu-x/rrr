@@ -1,4 +1,4 @@
-﻿using ScreenMap;
+using ScreenMap;
 using System.Collections;
 using UnityEngine;
 
@@ -16,19 +16,24 @@ public class CarInputGUI : MonoBehaviour, ICarInput {
             valueLook = GUI.HorizontalSlider(map.X(2, 5, 3).Y(1, 4), valueLook, -1, +1);
 		}
 	}
-	
-	public float GetStearing() {
-		return Input.GetAxis("Horizontal") + Input.acceleration.x *
-			PlayerPrefs.GetInt("input_accelerate", 2);
+
+	public float stearing {
+        get {
+    		return Input.GetAxis("Horizontal") + Input.acceleration.x *
+    			PlayerPrefs.GetInt("input_accelerate", 2);
+        }
 	}
 
-	public float GetPedals() {
-		return Input.GetAxis ("Vertical") + 
-			(isGas ? 1 : 0) + (isBreak ? -1 : 0);
+	public float pedals {
+        get {
+    		return Input.GetAxis ("Vertical") + (isGas ? 1 : 0) + (isBreak ? -1 : 0);
+        }
 	}
 
-	public float GetLook() { 
-        return valueLook * PlayerPrefs.GetInt("input_look", 2);
+	public float look {
+        get {
+            return valueLook * PlayerPrefs.GetInt("input_look", 2);
+        }
     }
 
 	bool isGas, isBreak;

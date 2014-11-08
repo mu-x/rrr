@@ -1,32 +1,46 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 /** Makes camera effects to simulate driver expirience */
 public class CarCamera : MonoBehaviour {
 	public float xMove = 1, zMove = 1;
 	public float angleMove = 10, angleRot = 15, angleLook = 15;
-	public CarControl carToWatch; /**< car to follow by default */
+    public float yBack = 1, rBack = 5;
+
+	public Transform watchPoint; /**< car to follow by default */
+    public ICarInput input; /**< input to correct camera position */
+
+    public enum ViewMode : int { DRIVER, BACK };
+    public ViewMode viewMode;
 
 	void Update () {
-		if (carToWatch == null) 
+        if (watchPoint == null)
             return;
-		
-        var point = carToWatch.watchPoint.transform.position;
-		var rotor = carToWatch.watchPoint.transform.eulerAngles;
-		var input = carToWatch.control.input;
+
+        transform.eulerAngles = watchPoint.eulerAngles;
+        transform.position = watchPoint.position;
 
         if (input != null) {
-    		// Move camera when wheel or pedals are affected
-    		point.x += input.GetStearing() * (xMove / 100);
-    		point.z -= input.GetPedals() * (zMove / 100);
+            // Move camera when wheel or pedals are affected
+            transform.position += new Vector3(
+                input.stearing * (xMove / 100), 0,
+                input.pedals * -(zMove / 100));
 
-    		// Rotate camera 
-            rotor.y += input.GetStearing() * angleMove;
-            rotor.y += input.GetLook() * angleLook;
-    		rotor.z -= input.GetStearing() * angleRot;
+            // Rotate camera
+            transform.eulerAngles += new Vector3(0,
+                input.stearing * angleMove + input.look * angleLook,
+                input.stearing * -angleRot);
         }
 
-		transform.position = point;
-		transform.eulerAngles = rotor;
+        switch (viewMode) {
+            case ViewMode.DRIVER:
+                break;
+
+            case ViewMode.BACK:
+                transform.position += new Vector3(0, yBack, 0);
+                transform.position += transform.forward * -rBack;
+                break;
+        }
+
 	}
 }

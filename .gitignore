@@ -3,5 +3,7 @@ Release/
 Temp/
 
 *.csproj
+*.unityproj
 *.sln
+*.suo
 *.userprefs

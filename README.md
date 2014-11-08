@@ -1,9 +1,9 @@
-RRR - Real Russian Racing
 =========================
+RRR - Real Russian Racing
 
 Description
 -----------
-Race fast cars in realistic Russian extreme environment. 
+Race fast cars in realistic Russian extreme environment.
 
 Features
 --------
@@ -20,15 +20,13 @@ Features
 
 Development Plan
 ----------------
-* Collision effects: sound, sparks, Handheld.Vibrate(), fatal damage
-* Remember last game mode & car, smooth car corners, ready-steady-go, 
-  stop engine and play music on pause.
 * AI: add game modes against AI cars
+* Russian Language Translation + Cool font in game
 * Village map: gather models prior creation
 * New cars: Sixth L2106, Priora L21127, Nexia D2, Logan R1
 * New tracks: Gazel Bus G3302, Gazel 4x4 G2752, Kamaz K5320
+* Car collision: deformation on damage
 * Car realistic improvements: gears, speed display
-* Russian Language Translation
 * Google Play integration for records, etc
 * Button textures and Box font customization
 * Many More...

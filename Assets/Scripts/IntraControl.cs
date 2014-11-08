@@ -1,4 +1,4 @@
-﻿using ScreenMap;
+using ScreenMap;
 using System.Collections;
 using UnityEngine;
 
@@ -8,26 +8,35 @@ public class IntraControl : MonoBehaviour {
 	public GameObject[] carList;
 	public string[] levelNames;
 
-    RaceMode[] RACE_MODES = new RaceMode[] {
-        new FreeRaceMode(), /* Default */
-        new CheckpointRaceMode(1), new CheckpointRaceMode(10)
-    };
+    public static GameObject selectedCarModel;
+    public static RaceMode selectedRaceMode;
 
+    /** Initializes selector controls */
 	void Start() {
-        carSelector = new Selector< GameObject >(carList, RaceControl.carModel,
-                                                 delegate (GameObject model) {
-            RaceControl.carModel = model;
-            if (carObject != null) Destroy(carObject);
-            carObject = CarControl.New(model, carSpot, null).gameObject;
-        });
+        carSelector = new Selector< GameObject >(
+            carList, "CarModel",
+            delegate (GameObject model) {
+                selectedCarModel = model;
+                if (carObject != null)
+                    Destroy(carObject);
 
-        modeSelector = new Selector< RaceMode >(RACE_MODES, RaceControl.raceMode,
-                                                delegate (RaceMode mode) {
-            RaceControl.raceMode = mode;
-        });
+                carObject = Instantiate(model, carSpot.position, carSpot.rotation)
+                    as GameObject;
+            });
 
-	}		
-	
+        var raceModes = new RaceMode[] {
+            new FreeRaceMode(), /* Default */
+            new CheckpointRaceMode(1), new CheckpointRaceMode(10)
+        };
+
+        modeSelector = new Selector<RaceMode>(
+            raceModes, "RaceMode",
+            delegate (RaceMode mode) {
+                selectedRaceMode = mode;
+            });
+	}
+
+    /** Draws menu selectors and 'start game' button */
     void OnGUI () {
         var top = this.ScreenRect().Y(1, 4);
         GUI.skin.label.fontSize = (int)(top.height / 1.5f);
@@ -40,21 +49,20 @@ public class IntraControl : MonoBehaviour {
         if (GUI.Button(middle.X(1, 7), "<")) carSelector.Previous();
         if (GUI.Button(middle.X(-1, 7), ">")) carSelector.Next();
 
-        var lower = this.ScreenRect().Y(-2, 4, 2);
+        var lower = this.ScreenRect().Y(-2, 5, 2);
         var bottom = lower.Y(-1, 3).X(2, 4, 2, border: 0);
-        GUI.skin.box.fontSize = 
-        GUI.skin.button.fontSize = (int)(bottom.height / 3.5);
+        GUI.skin.box.fontSize =
+        GUI.skin.button.fontSize = (int)(bottom.height / 3);
 
-        var car = RaceControl.carModel.GetComponent<CarControl>();
-        GUI.Box(lower.X(1, 4), car.name + "\n-\n" + car.control);
+        GUI.Box(lower.X(1, 4), selectedCarModel.GetComponent<CarControl>().info);
         if (GUI.Button(lower.X(-1, 4), "START\nGAME"))
 			Application.LoadLevel(levelNames[0]);
 
         if (GUI.Button(bottom.X(1, 5, border: 0), "<")) modeSelector.Previous();
-        GUI.Box(bottom.X(2, 5, 3, border: 0), RaceControl.raceMode.ToString());
+        GUI.Box(bottom.X(2, 5, 3, border: 0), selectedRaceMode.info);
         if (GUI.Button(bottom.X(-1, 5, border: 0), ">")) modeSelector.Next();
 	}
-    
+
     ISelector carSelector;
     string carInfo;
     GameObject carObject;

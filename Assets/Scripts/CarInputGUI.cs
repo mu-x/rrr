@@ -4,38 +4,38 @@ using UnityEngine;
 
 /** Translates Input to special car moves (singletone) */
 public class CarInputGUI : MonoBehaviour, ICarInput {
-	public bool isEnabled = true;
+    public bool isEnabled = true;
 
-	void OnGUI() {
+    void OnGUI() {
         if (isEnabled) {
             var map = this.ScreenRect();
             GUI.skin.button.fontSize = 15;
 
-			isBreak = GUI.RepeatButton(map.X(1, 4).Y(4, 4), "BREAKS");
+            isBreak = GUI.RepeatButton(map.X(1, 4).Y(4, 4), "BREAKS");
             isGas = GUI.RepeatButton(map.X(-1, 4).Y(4, 4), "ACCELERATOR");
             valueLook = GUI.HorizontalSlider(map.X(2, 5, 3).Y(1, 4), valueLook, -1, +1);
-		}
-	}
-
-	public float stearing {
-        get {
-    		return Input.GetAxis("Horizontal") + Input.acceleration.x *
-    			PlayerPrefs.GetInt("input_accelerate", 2);
         }
-	}
+    }
 
-	public float pedals {
+    public float stearing {
         get {
-    		return Input.GetAxis ("Vertical") + (isGas ? 1 : 0) + (isBreak ? -1 : 0);
+            return Input.GetAxis("Horizontal") + Input.acceleration.x *
+                PlayerPrefs.GetInt("input_accelerate", 2);
         }
-	}
+    }
 
-	public float look {
+    public float pedals {
+        get {
+            return Input.GetAxis ("Vertical") + (isGas ? 1 : 0) + (isBreak ? -1 : 0);
+        }
+    }
+
+    public float look {
         get {
             return valueLook * PlayerPrefs.GetInt("input_look", 2);
         }
     }
 
-	bool isGas, isBreak;
-	float valueLook;
+    bool isGas, isBreak;
+    float valueLook;
 }

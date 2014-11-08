@@ -47,8 +47,8 @@ public class Selector<T> : ISelector {
         this.items = items;
         this.changed = changed;
         this.round = round;
-		this.label = label;
-		this.selected = (label != null) ? PlayerPrefs.GetInt(label, 0) : 0;
+        this.label = label;
+        this.selected = (label != null) ? PlayerPrefs.GetInt(label, 0) : 0;
 
         if (changed != null)
             changed(items[this.selected]);
@@ -60,8 +60,8 @@ public class Selector<T> : ISelector {
             if(round != null) round();
         }
 
-		if (label != null)
-			PlayerPrefs.SetInt(label, selected);
+        if (label != null)
+            PlayerPrefs.SetInt(label, selected);
 
         if (changed != null)
             changed(items[selected]);
@@ -71,10 +71,10 @@ public class Selector<T> : ISelector {
         if (--selected < 0) {
             selected += items.Length;
             if(round != null) round();
-		}
+        }
 
-		if (label != null)
-			PlayerPrefs.SetInt(label, selected);
+        if (label != null)
+            PlayerPrefs.SetInt(label, selected);
 
         if (changed != null)
             changed(items[selected]);
@@ -83,6 +83,6 @@ public class Selector<T> : ISelector {
     T[] items;
     Changed changed;
     Round round;
-	string label;
+    string label;
     int selected = 0;
 }

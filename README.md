@@ -1,22 +1,31 @@
 =========================
 RRR - Real Russian Racing
 
+
 Description
 -----------
 Race fast cars in realistic Russian extreme environment.
 
+
 Features
 --------
-* Realistic Russian tracks:
-  - Forest Ring
+* Realistic Russian environment:
+  - Terrible quality of roads
+  - Fast dangerous speed racing
+
 * Fast Russian cars of player choice:
   - Kopeck L2101
   - Quad L2104
   - Chisel L2109
   - Niva L2121
+
+* Road and off-road Russian tracks:
+  - Forest Ring
+
 * Different game modes:
   - Free Ride
   - Check Point Chase
+
 
 Development Plan
 ----------------
@@ -31,12 +40,13 @@ Development Plan
 * Button textures and Box font customization
 * Many More...
 
+
 Created by
 ----------
-MUX (lyseracid@gmail.com)
-Google Android Play Store: https://play.google.com/store/apps/details?id=com.mux.rrra
-GitHub: git clone https://github.com/mu-x/rrr.git
--
-Powered by Unity 3d Free 4.5.5f1: https://unity3d.com
-Using Unity 3d free assets from Asset Store: http://assetstore.unity3d.com
-Models by Wings 3D: http://wings3d.com
+- MUX (lyseracid@gmail.com)
+- Google Android Play Store: https://play.google.com/store/apps/details?id=com.mux.rrra
+- GitHub: git clone https://github.com/mu-x/rrr.git
+
+* Powered by Unity 3d Free 4.5.5f1: https://unity3d.com
+* Using Unity 3d free assets from Asset Store: http://assetstore.unity3d.com
+* Models by Wings 3D: http://wings3d.com

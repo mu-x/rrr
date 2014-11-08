@@ -4,15 +4,15 @@ using UnityEngine;
 
 /** Car & track selection menu */
 public class IntraControl : MonoBehaviour {
-	public Transform carSpot;
-	public GameObject[] carList;
-	public string[] levelNames;
+    public Transform carSpot;
+    public GameObject[] carList;
+    public string[] levelNames;
 
     public static GameObject selectedCarModel;
     public static RaceMode selectedRaceMode;
 
     /** Initializes selector controls */
-	void Start() {
+    void Start() {
         carSelector = new Selector< GameObject >(
             carList, "CarModel",
             delegate (GameObject model) {
@@ -34,7 +34,7 @@ public class IntraControl : MonoBehaviour {
             delegate (RaceMode mode) {
                 selectedRaceMode = mode;
             });
-	}
+    }
 
     /** Draws menu selectors and 'start game' button */
     void OnGUI () {
@@ -56,12 +56,12 @@ public class IntraControl : MonoBehaviour {
 
         GUI.Box(lower.X(1, 4), selectedCarModel.GetComponent<CarControl>().info);
         if (GUI.Button(lower.X(-1, 4), "START\nGAME"))
-			Application.LoadLevel(levelNames[0]);
+            Application.LoadLevel(levelNames[0]);
 
         if (GUI.Button(bottom.X(1, 5, border: 0), "<")) modeSelector.Previous();
         GUI.Box(bottom.X(2, 5, 3, border: 0), selectedRaceMode.info);
         if (GUI.Button(bottom.X(-1, 5, border: 0), ">")) modeSelector.Next();
-	}
+    }
 
     ISelector carSelector;
     string carInfo;

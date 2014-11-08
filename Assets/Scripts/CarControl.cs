@@ -11,9 +11,9 @@ public interface ICarInput {
 
 /** Applies effect of the Control to car Wheels */
 public class CarControl : MonoBehaviour {
-	public Controls control;
-	public Effects effects;
-	public Wheels wheels;
+    public Controls control;
+    public Effects effects;
+    public Wheels wheels;
     public Transform stearingWheel, watchPoint;
     public Dictionary<string, ISelector> options;
     public CheckpointControl checkpoints;
@@ -21,48 +21,48 @@ public class CarControl : MonoBehaviour {
     public enum CarType { PLAYER, RACER, TRAFIC };
     public CarType type;
 
-	void Start() {
-		control.Setup(rigidbody);
-		health = 100;
-	}
+    void Start() {
+        control.Setup(rigidbody);
+        health = 100;
+    }
 
-	void Update() {
+    void Update() {
         wheels.Update();
     }
 
     /** Apllies car @var control to car @var wheels */
     void FixedUpdate() {
-		if (control.input == null)
-			return; // Nothing to apply :)
+        if (control.input == null)
+            return; // Nothing to apply :)
 
-		var engine = health / 100f;
-		stearingWheel.localEulerAngles = new Vector3(0, 0, control.move * engine);
+        var engine = health / 100f;
+        stearingWheel.localEulerAngles = new Vector3(0, 0, control.move * engine);
 
         wheels.SetStearing(control.stearing * engine);
-		wheels.SetTorque(control.frontTorque * engine,
+        wheels.SetTorque(control.frontTorque * engine,
                          control.rearTorque * engine);
 
         effects.Engine(audio, wheels.CarSpeed());
-	}
+    }
 
     /** Handles collisions with environment objects */
-	void OnCollisionEnter (Collision collision) {
-		if (type == CarType.PLAYER)
-			Handheld.Vibrate();
+    void OnCollisionEnter (Collision collision) {
+        if (type == CarType.PLAYER)
+            Handheld.Vibrate();
 
-		if (collision.transform == transform)
-			return;
+        if (collision.transform == transform)
+            return;
 
         // Apply danage and hit effect if collision beats armor
-		foreach (var contact in collision.contacts) {
-			var power = Vector3.Project(collision.relativeVelocity,
+        foreach (var contact in collision.contacts) {
+            var power = Vector3.Project(collision.relativeVelocity,
                                         contact.normal).sqrMagnitude;
-			if (power > control.armor) {
-				if ((health -= power / control.armor) <= 0) {
-					health = 0;
-				}
-				effects.Hit(contact.point, health);
-			}
+            if (power > control.armor) {
+                if ((health -= power / control.armor) <= 0) {
+                    health = 0;
+                }
+                effects.Hit(contact.point, health);
+            }
         }
     }
 
@@ -88,7 +88,7 @@ public class CarControl : MonoBehaviour {
         }
     }
 
-	float health = 100;
+    float health = 100;
 }
 
 /** Adapter for @interface ICarInput */

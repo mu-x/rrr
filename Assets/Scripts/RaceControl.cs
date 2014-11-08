@@ -54,19 +54,19 @@ public class RaceControl : MonoBehaviour {
         if (gameDalay != 0)
             return;
 
-		raceMode.FixedUpdate();
-	}
+        raceMode.FixedUpdate();
+    }
 
-	void OnGUI() {
+    void OnGUI() {
         var top = this.ScreenRect().Y(1, 6f);
         GUI.skin.button.fontSize =
         GUI.skin.box.fontSize = (int)(top.height / 4);
 
-		GUI.Box(top.X(1, 9, 2), raceMode.status);
+        GUI.Box(top.X(1, 9, 2), raceMode.status);
         if (isRunning) {
             if (GUI.Button(top.X(-2, 9, 2).Y(1, 2, 1, 0), "PAUSE")) {
                 isRunning = false;
-			}
+            }
 
             int mode = (int) carCamera.viewMode;
             var modeList = new[] {
@@ -87,18 +87,18 @@ public class RaceControl : MonoBehaviour {
         var counter = this.ScreenRect().X(2, 4, 2).Y(2, 3);
         GUI.skin.label.normal.textColor = Color.red;
         GUI.skin.label.fontSize = (int)top.height;
-		GUI.Label(counter, COUNT_DOWN[gameDalay - 1]);
-	}
+        GUI.Label(counter, COUNT_DOWN[gameDalay - 1]);
+    }
 
     void MenuGUI() {
         var menu = this.ScreenRect().X(2, 4, 2);
         GUI.skin.button.fontSize = (int)menu.Y(1, 10).height;
 
-		if (endOfTheGame == null) {
+        if (endOfTheGame == null) {
             if (GUI.Button(menu.Y(1, 3), "RETURN TO GAME")) {
                 isRunning = true;
-				carCamera.audio.Pause();
-			}
+                carCamera.audio.Pause();
+            }
         } else {
             GUI.Button(menu.Y(1, 3), endOfTheGame);
         }
@@ -130,11 +130,11 @@ public class RaceControl : MonoBehaviour {
         get { return !Time.timeScale.Equals(0); }
     }
 
-	static string[] COUNT_DOWN = new string[] { "GO!", "STADY", "READY" };
+    static string[] COUNT_DOWN = new string[] { "GO!", "STADY", "READY" };
 
     RaceMode raceMode;
-	int gameDalay;
-	string endOfTheGame;
+    int gameDalay;
+    string endOfTheGame;
 }
 
 /** Controls part of the game process according to the race mode

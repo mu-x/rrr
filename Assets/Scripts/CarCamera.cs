@@ -3,17 +3,17 @@ using UnityEngine;
 
 /** Makes camera effects to simulate driver expirience */
 public class CarCamera : MonoBehaviour {
-	public float xMove = 1, zMove = 1;
-	public float angleMove = 10, angleRot = 15, angleLook = 15;
+    public float xMove = 1, zMove = 1;
+    public float angleMove = 10, angleRot = 15, angleLook = 15;
     public float yBack = 1, rBack = 5;
 
-	public Transform watchPoint; /**< car to follow by default */
+    public Transform watchPoint; /**< car to follow by default */
     public ICarInput input; /**< input to correct camera position */
 
     public enum ViewMode : int { DRIVER, BACK };
     public ViewMode viewMode;
 
-	void Update () {
+    void Update () {
         if (watchPoint == null)
             return;
 
@@ -42,5 +42,5 @@ public class CarCamera : MonoBehaviour {
                 break;
         }
 
-	}
+    }
 }

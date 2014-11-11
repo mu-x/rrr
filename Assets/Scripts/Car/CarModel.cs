@@ -26,7 +26,7 @@ public class CarModel : MonoBehaviour, ICarModel {
     public Vector3 centerOfMass = new Vector3(0, -0.9f, 0);
     public float maxStearAngle = 45;
     public float frontDrive = 0, rearDrive = 50;
-    public float enginePitchDev = 150, engineVolumeDev = 20;
+    public float gearLength = 300;
     public float armor = 50;
 
     public bool isReady { get; set; }
@@ -37,17 +37,26 @@ public class CarModel : MonoBehaviour, ICarModel {
 
     /** Loads resources, prepares @var this object for scene */
     void Start() {
+        driverHead.renderer.enabled = false;
+        rigidbody.centerOfMass = centerOfMass;
+
         crashSparks = crashSparks ?? Resources.Load<GameObject>("Crash Sparks");
         crashSmoke = crashSmoke ?? Resources.Load<GameObject>("Crash Smoke");
 
-        wheelModel = wheelModel ?? Resources.Load<GameObject>("Wheel Basic");
+        wheelModel = wheelModel ?? Resources.Load<GameObject>("Wheel Basic USSR");
         SetupWheels(GetComponentsInChildren<WheelCollider>());
 
-        if (audio == null)
-            gameObject.AddComponent<AudioSource>().clip =
-                Resources.Load<AudioClip>("Engine Sound");
+        var mid = new Vector3();
+        Array.ForEach(frontWheels,
+            w => mid += w.collider.center);
+        centerOfMass += mid * (1 / frontWheels.Length);
 
-        rigidbody.centerOfMass = centerOfMass;
+        if (audio == null) {
+            gameObject.AddComponent<AudioSource>();
+            audio.clip = Resources.Load<AudioClip>("Car Engine");
+            audio.Play();
+        }
+
         health = 100;
         isReady = true;
     }
@@ -56,20 +65,20 @@ public class CarModel : MonoBehaviour, ICarModel {
     void SetupWheels(WheelCollider[] wheelColliders) {
         List<Wheel> fw = new List<Wheel>(), rw = new List<Wheel>();
         foreach (var wc in wheelColliders) {
-            wc.renderer.enabled = false;
             var center = wc.renderer.bounds.center;
-            var go = Instantiate(wheelModel, center, new Quaternion())
-                as GameObject;
+            wc.renderer.enabled = false;
+
+            var tr = (Instantiate(wheelModel) as GameObject).transform;
+            tr.parent = transform;
+            tr.position = center;
+            tr.rotation = transform.rotation;
+            tr.localScale *= wc.radius;
 
             // Configure instantiated models
-            var wheel = new Wheel {
-                collider = wc, model = go.transform,
-                rotation = wc.name.Contains("L") ? 0 : 180
-            };
-
-            wheel.model.parent = wheel.collider.transform;
-            wheel.model.localScale *= wheel.collider.radius;
-            wheel.model.localRotation = new Quaternion(0, wheel.rotation, 0, 0);
+            var wheel = new Wheel { collider = wc, model = tr };
+            var wm = wheel.model.GetChild(0);
+            wm.localEulerAngles =
+                new Vector3(0, wc.name.Contains("L") ? 0 : 180, 0);
 
             // Save wheel controls to provate members
             (wc.name.Contains("F") ? fw : rw).Add(wheel);
@@ -80,15 +89,21 @@ public class CarModel : MonoBehaviour, ICarModel {
     }
 
     /** Rotates wheels and play engine sound */
-    void Update() {
-        Array.ForEach(frontWheels, w => w.model.Rotate(speed, 0, 0));
-        Array.ForEach(rearWheels, w => w.model.Rotate(speed, 0, 0));
+    void FixedUpdate() {
+        Action<Wheel> rotate = delegate(Wheel w) {
+            w.model.Rotate(w.collider.rpm / 60f * Time.deltaTime * 360f, 0, 0);
+        };
 
-        if (!audio.isPlaying)
+        Array.ForEach(frontWheels, rotate);
+        Array.ForEach(rearWheels, rotate);
+
+        if (!audio.isPlaying && audio.clip.isReadyToPlay)
             audio.Play();
 
-        audio.pitch = 1 + (speed / enginePitchDev);
-        audio.volume = (1 + (speed / engineVolumeDev)) / 10;
+        var gear = (int)(speed / gearLength);
+        var rest = speed - gear * gearLength;
+        audio.pitch = 1 + 0.1f * gear + 0.5f * rest / gearLength;
+        audio.volume = 0.2f + 0.15f * gear;
     }
 
     /** Handles collisions with environment objects */
@@ -105,10 +120,10 @@ public class CarModel : MonoBehaviour, ICarModel {
 
             Instantiate(crashSparks, contact.point, Quaternion.identity);
             if (health < 75 && engineEffect == null) {
-                var go = Instantiate(crashSmoke,
-                    transform.position, transform.rotation) as GameObject;
+                var go = Instantiate(crashSmoke) as GameObject;
                 engineEffect = go.transform;
-                engineEffect.parent = transform;
+                engineEffect.parent = stearingWheel;
+                engineEffect.localPosition = Vector3.forward;
             }
         }
     }
@@ -122,21 +137,23 @@ public class CarModel : MonoBehaviour, ICarModel {
     public float stearing {
         set {
             value = Mathf.Clamp(value, -maxStearAngle, maxStearAngle);
-            stearingWheel.localEulerAngles = new Vector3(0, 0, value * 5);
+            stearingWheel.localEulerAngles = 
+                new Vector3(stearingWheel.localEulerAngles.x, 0, -value * 10);
             foreach (var w in frontWheels) {
                 w.collider.steerAngle = value;
-                w.model.localRotation = new Quaternion(
-                    0, w.rotation + value, 0, 0);
+                w.model.eulerAngles = transform.eulerAngles + new Vector3(
+                    0, value, 0);
             }
         }
     }
 
     public float pedals {
         set {
+            var engine = (float)health / 100f; 
             Array.ForEach(frontWheels,
-                w => w.collider.motorTorque = value * frontDrive);
+                w => w.collider.motorTorque = value * frontDrive * engine);
             Array.ForEach(rearWheels,
-                w => w.collider.motorTorque = value * rearDrive);
+                w => w.collider.motorTorque = value * rearDrive * engine);
         }
     }
 
@@ -163,6 +180,5 @@ public class CarModel : MonoBehaviour, ICarModel {
     public struct Wheel {
         public WheelCollider collider;
         public Transform model;
-        public float rotation;
     }
 }

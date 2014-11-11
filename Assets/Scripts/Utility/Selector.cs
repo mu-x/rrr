@@ -21,13 +21,12 @@ public class Selector<T> : ISelector {
         if (items == null || items.Length == 0)
             throw new ArgumentNullException("items");
 
+        this.label = label;
+        this.selected = (label != null) ? PlayerPrefs.GetInt(label, 0) : 0;
+
         this.changed = changed ?? delegate(T t) { };
         this.changed(items[this.selected]);
         this.round = round ?? delegate { };
-
-        this.label = label;
-        this.selected = PlayerPrefs.GetInt(label, 0);
-
     }
 
     public void Next() {

@@ -31,20 +31,24 @@ o                                  __
 * Different game modes:
   - Free Ride
   - Check Point Chase
+  - Real Race
 
 ---
 
 
 ## Development Plan
 
-* AI: add game modes against AI cars
-* Russian Language Translation + Cool font in game
+* Enhanced menu
 * Village map: gather models prior creation
+* Refactoring: RaceMode(s) to MonoBehaviour
+* Refactoring: Driver base for DriverAI, DriverGUI
+* Open cars by achievements
+* Russian Language Translation + Cool font in game
 * New cars: Sixth L2106, Priora L21127, Nexia D2, Logan R1
 * New tracks: Gazel Bus G3302, Gazel 4x4 G2752, Kamaz K5320
 * Car collision: deformation on damage
 * Car realistic improvements: gears, speed display
-* Google Play integration for records, etc
+* Google Play integration for records, etc.
 * Button textures and Box font customization
 * Many More...
 

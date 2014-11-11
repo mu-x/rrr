@@ -5,8 +5,10 @@ using UnityEngine;
 
 /** Player controlled @calss Driver (GUI based) */
 public class Player : Driver {
-    public override void Prepare(GameObject carModel, GameObject[] route = null,
-                                 int roundsExpected = 0, Action finish = null) {
+    public override void Prepare(GameObject carModel = null, 
+                                 GameObject[] route = null,
+                                 int roundsExpected = 0, 
+                                 Action finish = null) {
         base.Prepare(carModel, route, roundsExpected, finish);
         Camera.main.GetComponent<CarCamera>().watchPoint = car.driverHead;
     }
@@ -22,6 +24,9 @@ public class Player : Driver {
         car.pedals =
             Input.GetAxis("Vertical") +
             (isGas ? 1 : 0) + (isBreak ? -1 : 0);
+
+        Camera.main.GetComponent<CarCamera>().angles = new Vector3(
+            0, viewLook, Input.acceleration.x);
     }
 
     void OnGUI() {
@@ -32,11 +37,10 @@ public class Player : Driver {
         isGas = GUI.RepeatButton(map.X(-1, 4).Y(-1, 4), "ACCELERATOR");
 
         // Sync camera
-        var camera = Camera.main.GetComponent<CarCamera>();
-        camera.viewLook = GUI.HorizontalSlider(map.X(2, 5, 3).Y(1, 4),
-            camera.viewLook, -90, 90);
+        viewLook = GUI.HorizontalSlider(map.X(2, 5, 3).Y(1, 4), 
+            viewLook, -90, 90);
 
-        int mode = (int)camera.viewMode;
+        int mode = (int)Camera.main.GetComponent<CarCamera>().viewMode;
         var modeList = new[] {
             CarCamera.ViewMode.DRIVER.ToString(),
             CarCamera.ViewMode.BACK.ToString(),
@@ -44,9 +48,10 @@ public class Player : Driver {
 
         mode = GUI.SelectionGrid(map.X(3, 5).Y(-1, 8),
                                     mode, modeList, modeList.Length);
-        camera.viewMode = (CarCamera.ViewMode)mode;
+        Camera.main.GetComponent<CarCamera>().viewMode = (CarCamera.ViewMode)mode;
     }
 
     protected override bool markCheckpints { get { return true; } }
     bool isGas, isBreak;
+    float viewLook;
 }

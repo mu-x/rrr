@@ -7,26 +7,20 @@ using UnityEngine;
 
 /** Controls game processes */
 public class RaceControl : MonoBehaviour {
-    public Player player;
-    public AudioClip signalPending;
-    public AudioClip signalStart;
-
     void Start() {
         // DEBUG ONLY!!
         if (IntraControl.selectedCarModel == null)
             IntraControl.selectedCarModel = Resources.Load<GameObject>(
                 "Car Models/Kopeck L2101");
         if (IntraControl.selectedRaceMode == null)
-            IntraControl.selectedRaceMode = new CheckpointChaseRaceMode();
+            IntraControl.selectedRaceMode = new RaceModeAI(1, 6);
 
         signalPending = signalPending ?? Resources.Load<AudioClip>("Xylo");
         signalStart = signalStart ?? Resources.Load<AudioClip>("Car Skid");
 
         raceMode = IntraControl.selectedRaceMode;
         raceMode.Prepare(
-            GetComponentInChildren<Player>(),
             IntraControl.selectedCarModel,
-            GetComponentInChildren<Checkpoints>().Get(),
             delegate(string message) {
                 isRunning = false;
                 endOfTheGame = message;
@@ -38,18 +32,19 @@ public class RaceControl : MonoBehaviour {
     }
 
     IEnumerator StartRace() {
-        player.isEnabled = false;
+        Array.ForEach(GetComponentsInChildren<Driver>(), d => d.isEnabled = false);
         gameDalay = COUNT_DOWN.Length;
-        var position = Camera.main.transform.position;
 
+        var camera = Camera.main;
         do {
-            AudioSource.PlayClipAtPoint(signalPending, position);
+            AudioSource.PlayClipAtPoint(signalPending, camera.transform.position);
+
             yield return new WaitForSeconds(1);
         } while (--gameDalay != 0) ;
 
         // Start race after a short dalay
-        AudioSource.PlayClipAtPoint(signalStart, position);
-        player.isEnabled = true;
+        AudioSource.PlayClipAtPoint(signalStart, camera.transform.position);
+        Array.ForEach(GetComponentsInChildren<Driver>(), d => d.isEnabled = true);
     }
 
     void FixedUpdate() {
@@ -112,11 +107,8 @@ public class RaceControl : MonoBehaviour {
             if (gameDalay == 0)
                 GetComponentInChildren<Player>().isEnabled = value;
 
-            if (!value) { // Stop all sounds when paused
-                var type = typeof(AudioSource);
-                foreach (var audio in FindObjectsOfType(type) as AudioSource[])
-                    audio.Pause();
-
+            if (!value) {
+                Array.ForEach(FindObjectsOfType<AudioSource>(), s => s.Pause());
                 Camera.main.audio.Play();
             } else {
                 Camera.main.audio.Pause();
@@ -130,4 +122,7 @@ public class RaceControl : MonoBehaviour {
     RaceMode raceMode;
     int gameDalay;
     string endOfTheGame;
+
+    AudioClip signalPending;
+    AudioClip signalStart;
 }

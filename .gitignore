@@ -1,6 +1,7 @@
 Library/
 Release/
 Temp/
+obj/
 
 *.csproj
 *.unityproj

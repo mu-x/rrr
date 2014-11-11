@@ -4,7 +4,7 @@ using UnityEngine;
 /** Makes camera effects to simulate driver expirience */
 public class CarCamera : MonoBehaviour {
     public Transform watchPoint; /**< Car to follow */
-    public float viewLook; /**< Driver head rotation */
+    public Vector3 angles; /**< Driver head rotation */
     public Vector3 backShift = new Vector3(0, 1, 5);
 
     public enum ViewMode : int { DRIVER, BACK };
@@ -34,7 +34,7 @@ public class CarCamera : MonoBehaviour {
 
         switch (viewMode) {
             case ViewMode.DRIVER:
-                transform.eulerAngles += new Vector3(0, viewLook, 0);
+                transform.eulerAngles += angles;
                 break;
 
             case ViewMode.BACK:

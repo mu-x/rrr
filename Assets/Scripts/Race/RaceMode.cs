@@ -4,17 +4,16 @@ using UnityEngine;
 
 /** Controls part of the game process according to the race mode
  * (default: free race, inherit+override for other kind) */
-public abstract class RaceMode {
-    public abstract string info { get; } /**< mode description */
+public class RaceMode {
+    public virtual string info { get { return "Free Ride\nUnleashed"; } }
 
     public virtual void FixedUpdate() {
         playTime += Time.deltaTime;
     }
 
-    public virtual void Prepare(Player player, GameObject playerModel,
-                                GameObject[] checkpoints = null,
-                                Action<string> finish = null) {
-        (this.player = player).Prepare(playerModel);
+    public virtual void Prepare(GameObject playerModel, Action<string> finish) {
+        player = UnityEngine.Object.FindObjectOfType<Player>();
+        player.Prepare(playerModel);
     }
 
     public virtual void Race() {
@@ -31,9 +30,4 @@ public abstract class RaceMode {
 
     protected float playTime;
     protected Player player;
-}
-
-/** Default @interface RaceMode implementation */
-public class FreeRideRaceMode : RaceMode {
-    public override string info { get { return "Free Ride\nUnleashed"; } }
 }

@@ -1,0 +1,137 @@
+fileFormatVersion: 2
+guid: 878e7884e60ef2e4f801fb5c98c4e9ee
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: BackLights
+    100002: Body
+    100004: Chrome
+    100006: Details
+    100008: FrontLight
+    100010: Head
+    100012: //RootNode
+    100014: Lic Plates
+    100016: Panels F
+    100018: Panels R
+    100020: Seats
+    100022: Stearing
+    100024: Wheel FL
+    100026: Wheel FR
+    100028: Wheel RL
+    100030: Wheel RR
+    400000: BackLights
+    400002: Body
+    400004: Chrome
+    400006: Details
+    400008: FrontLight
+    400010: Head
+    400012: //RootNode
+    400014: Lic Plates
+    400016: Panels F
+    400018: Panels R
+    400020: Seats
+    400022: Stearing
+    400024: Wheel FL
+    400026: Wheel FR
+    400028: Wheel RL
+    400030: Wheel RR
+    2300000: BackLights
+    2300002: Body
+    2300004: Chrome
+    2300006: Details
+    2300008: FrontLight
+    2300010: Head
+    2300012: Lic Plates
+    2300014: Panels F
+    2300016: Panels R
+    2300018: Seats
+    2300020: Stearing
+    2300022: Wheel FL
+    2300024: Wheel FR
+    2300026: Wheel RL
+    2300028: Wheel RR
+    3300000: BackLights
+    3300002: Body
+    3300004: Chrome
+    3300006: Details
+    3300008: FrontLight
+    3300010: Head
+    3300012: Lic Plates
+    3300014: Panels F
+    3300016: Panels R
+    3300018: Seats
+    3300020: Stearing
+    3300022: Wheel FL
+    3300024: Wheel FR
+    3300026: Wheel RL
+    3300028: Wheel RR
+    4300000: Panels R
+    4300002: Wheel RR
+    4300004: Wheel RL
+    4300006: Wheel FR
+    4300008: Wheel FL
+    4300010: Head
+    4300012: Body
+    4300014: Lic Plates
+    4300016: Chrome
+    4300018: BackLights
+    4300020: FrontLight
+    4300022: Panels F
+    4300024: Stearing
+    4300026: Details
+    4300028: Seats
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .100000001
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

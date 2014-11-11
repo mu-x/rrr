@@ -4,9 +4,7 @@ using UnityEngine;
 
 /** Car & track selection menu */
 public class IntraControl : MonoBehaviour {
-    public Transform carSpot;
-    public GameObject[] carList;
-    public string[] levelNames;
+    public string[] levelNames = new[] { "Forest Ring" };
 
     public static GameObject selectedCarModel;
     public static RaceMode selectedRaceMode;
@@ -14,23 +12,24 @@ public class IntraControl : MonoBehaviour {
     /** Initializes selector controls */
     void Start() {
         carSelector = new Selector< GameObject >(
-            carList, "CarModel",
+            Resources.LoadAll<GameObject>("Car Models"),
+            "Car Model",
             delegate (GameObject model) {
                 selectedCarModel = model;
                 if (carObject != null)
                     Destroy(carObject);
 
-                carObject = Instantiate(model, carSpot.position, carSpot.rotation)
-                    as GameObject;
+                var r = transform.FindChild("Respawn");
+                carObject = (GameObject)Instantiate(model, r.position, r.rotation);
             });
 
         var raceModes = new RaceMode[] {
-            new FreeRaceMode(), /* Default */
-            new CheckpointRaceMode(1), new CheckpointRaceMode(10)
+            new FreeRideRaceMode(), /* Default */
+            new CheckpointChaseRaceMode(1), new CheckpointChaseRaceMode(10)
         };
 
         modeSelector = new Selector<RaceMode>(
-            raceModes, "RaceMode",
+            raceModes, "race_mode",
             delegate (RaceMode mode) {
                 selectedRaceMode = mode;
             });
@@ -54,7 +53,7 @@ public class IntraControl : MonoBehaviour {
         GUI.skin.box.fontSize =
         GUI.skin.button.fontSize = (int)(bottom.height / 3);
 
-        GUI.Box(lower.X(1, 4), selectedCarModel.GetComponent<CarControl>().info);
+        GUI.Box(lower.X(1, 4), selectedCarModel.GetComponent<CarModel>().info);
         if (GUI.Button(lower.X(-1, 4), "START\nGAME"))
             Application.LoadLevel(levelNames[0]);
 

@@ -4,11 +4,10 @@ using UnityEngine;
 
 /** Abstract driver in the Race */
 public abstract class Driver : MonoBehaviour {
-    public bool isEnabled = false;
     public int pointsPassed = 0, roundsPassed = 0;
 
-    public static int Compare(Driver a, Driver b) { 
-        return a.pointsPassed.CompareTo(b.pointsPassed);  
+    public static int Compare(Driver a, Driver b) {
+        return a.pointsPassed.CompareTo(b.pointsPassed);
     }
 
     void Start() {
@@ -17,9 +16,9 @@ public abstract class Driver : MonoBehaviour {
 
     public virtual void Prepare(GameObject carModel = null,
                                 GameObject[] route = null,
-                                int roundsExpected = 0, 
+                                int roundsExpected = 0,
                                 Action finish = null) {
-        var newCar = (Instantiate(carModel ?? 
+        var newCar = (Instantiate(carModel ??
             Resources.Load<GameObject>("Car Models/Kopeck L2101"),
             transform.position, transform.rotation)
             as GameObject).GetComponent<CarModel>();

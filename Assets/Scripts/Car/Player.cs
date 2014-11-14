@@ -5,18 +5,15 @@ using UnityEngine;
 
 /** Player controlled @calss Driver (GUI based) */
 public class Player : Driver {
-    public override void Prepare(GameObject carModel = null, 
+    public override void Prepare(GameObject carModel = null,
                                  GameObject[] route = null,
-                                 int roundsExpected = 0, 
+                                 int roundsExpected = 0,
                                  Action finish = null) {
         base.Prepare(carModel, route, roundsExpected, finish);
         Camera.main.GetComponent<CarCamera>().watchPoint = car.driverHead;
     }
 
     void FixedUpdate() {
-        if (!car.isReady || !isEnabled)
-            return;
-
         car.stearing =
             Input.GetAxis("Horizontal") * 25 +
             Input.acceleration.x * PlayerPrefs.GetInt("input_accelerate", 50);
@@ -37,7 +34,7 @@ public class Player : Driver {
         isGas = GUI.RepeatButton(map.X(-1, 4).Y(-1, 4), "ACCELERATOR");
 
         // Sync camera
-        viewLook = GUI.HorizontalSlider(map.X(2, 5, 3).Y(1, 4), 
+        viewLook = GUI.HorizontalSlider(map.X(2, 5, 3).Y(1, 4),
             viewLook, -90, 90);
 
         int mode = (int)Camera.main.GetComponent<CarCamera>().viewMode;

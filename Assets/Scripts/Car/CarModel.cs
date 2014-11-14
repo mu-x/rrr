@@ -5,180 +5,219 @@ using System;
 using UnityEngine;
 
 /** Car controlling interface */
-public interface ICarModel {
-    bool isReady { get; }
+public interface ICarModel
+{
     Transform driverHead { get; }
     Action<GameObject> onTrigger { set; }
+
+    string model { get; }
+    string details { get; }
 
     float stearing { set; }
     float pedals { set; }
 
+    int gear { get; }
     float speed { get; }
-    string info { get; }
+    float health { get; }
 }
 
-/** Car controlling Script */
-public class CarModel : MonoBehaviour, ICarModel {
-    public GameObject crashSparks;
-    public GameObject crashSmoke;
-    public GameObject wheelModel;
+/** Car controlling script */
+public class CarModel : MonoBehaviour, ICarModel
+{
+    public Perfabs perfabs;
+    public Attributes attributes;
+    public Parts __parts;
 
-    public Vector3 centerOfMass = new Vector3(0, -0.9f, 0);
-    public float maxStearAngle = 45;
-    public float frontDrive = 0, rearDrive = 50;
-    public float gearLength = 300;
-    public float armor = 50;
-
-    public bool isReady { get; set; }
-    public Action<GameObject> onTrigger { get; set; }
+    /** @addtgoup ICarModel
+     *  @{ */
 
     public Transform driverHead { get { return transform.FindChild("Head"); } }
-    Transform stearingWheel { get { return transform.FindChild("Stearing"); } }
+    public Action<GameObject> onTrigger { get; set; }
 
-    /** Loads resources, prepares @var this object for scene */
-    void Start() {
+    public string model { get { return name; } }
+    public string details { get { return string.Join("\n", attributes.details); } }
+
+    public float stearing { get; set; }
+    public float pedals { get; set; }
+
+    public int gear { get; set; }
+    public float speed { get; set; }
+    public float health { get; set; }
+
+    /** @}
+     *  @addtgoup MonoBehaviour
+     *  @{ */
+
+    void Start()
+    {
+        name = name.Replace(" Clone", "");
         driverHead.renderer.enabled = false;
-        rigidbody.centerOfMass = centerOfMass;
-
-        crashSparks = crashSparks ?? Resources.Load<GameObject>("Crash Sparks");
-        crashSmoke = crashSmoke ?? Resources.Load<GameObject>("Crash Smoke");
-
-        wheelModel = wheelModel ?? Resources.Load<GameObject>("Wheel Basic USSR");
-        SetupWheels(GetComponentsInChildren<WheelCollider>());
-
-        var mid = new Vector3();
-        Array.ForEach(frontWheels,
-            w => mid += w.collider.center);
-        centerOfMass += mid * (1 / frontWheels.Length);
-
-        if (audio == null) {
-            gameObject.AddComponent<AudioSource>();
-            audio.clip = Resources.Load<AudioClip>("Car Engine");
-            audio.Play();
-        }
-
+        gameObject.AddComponent<AudioSource>().clip = perfabs.engineSound;
         health = 100;
-        isReady = true;
-    }
 
-    /** Replace @var wheelColliders with @var wheelModel copies */
-    void SetupWheels(WheelCollider[] wheelColliders) {
-        List<Wheel> fw = new List<Wheel>(), rw = new List<Wheel>();
-        foreach (var wc in wheelColliders) {
-            var center = wc.renderer.bounds.center;
-            wc.renderer.enabled = false;
-
-            var tr = (Instantiate(wheelModel) as GameObject).transform;
+        // Setup internal links
+        __parts.stearingWheel = transform.FindChild("Stearing");
+        foreach (var wc in GetComponentsInChildren<WheelCollider>())
+        {
+            // Create new model
+            var tr = (Instantiate(perfabs.wheelModel) as GameObject).transform;
             tr.parent = transform;
-            tr.position = center;
+            tr.position = wc.renderer.bounds.center;
             tr.rotation = transform.rotation;
             tr.localScale *= wc.radius;
+            tr.GetChild(0).localEulerAngles = new Vector3(
+                0, wc.name.Contains("L") ? 0 : 180, 0);
 
-            // Configure instantiated models
-            var wheel = new Wheel { collider = wc, model = tr };
-            var wm = wheel.model.GetChild(0);
-            wm.localEulerAngles =
-                new Vector3(0, wc.name.Contains("L") ? 0 : 180, 0);
-
-            // Save wheel controls to provate members
-            (wc.name.Contains("F") ? fw : rw).Add(wheel);
+            // Replace old one
+            var container = wc.name.Contains("F") ?
+                __parts.frontWheels : __parts.rearWheels;
+            container.Add(new Wheel { collider = wc, model = tr });
         }
 
-        frontWheels = fw.ToArray();
-        rearWheels = rw.ToArray();
+        // HUCK: set centerOfMax in the middle of wheels makes car go forward
+        attributes.centerOfMass.x +=
+            __parts.frontWheels.Average(w => w.collider.center.x);
     }
 
-    /** Rotates wheels and play engine sound */
-    void FixedUpdate() {
-        Action<Wheel> rotate = delegate(Wheel w) {
+    void FixedUpdate()
+    {
+        // Stearing Wheel
+        var angle = Mathf.Clamp(stearing, -attributes.maxStearAngle,
+            attributes.maxStearAngle) * (health / 100);
+
+        if (__parts.stearingWheel != null)
+            __parts.stearingWheel.localEulerAngles = new Vector3(
+                __parts.stearingWheel.localEulerAngles.x, 0, -angle * 10f);
+
+        // Wheel colliders
+        foreach (var w in __parts.frontWheels)
+        {
+            w.collider.steerAngle = angle;
+            w.collider.motorTorque = pedals *
+                attributes.frontDrive * (health / 100);
+        }
+
+        foreach (var w in __parts.frontWheels)
+            w.collider.motorTorque = pedals *
+                attributes.rearDrive * (health / 100);
+
+        // Wheel models
+        foreach (var w in __parts.allWheels)
+        {
+            w.model.eulerAngles = transform.eulerAngles + new Vector3(0, angle, 0);
             w.model.Rotate(w.collider.rpm / 60f * Time.deltaTime * 360f, 0, 0);
-        };
+        }
 
-        Array.ForEach(frontWheels, rotate);
-        Array.ForEach(rearWheels, rotate);
+        // Current timed characteristics
+        speed = __parts.allWheels.Sum(w => w.collider.rpm);
+        gear = (int)Mathf.Sign(speed);
 
+        var power = Mathf.Abs(speed / attributes.gearLength);
+        while (power > 1)
+        {
+            power /= 1.5f;
+            gear += (int)Mathf.Sign(speed);
+        }
+
+        // Object
+        rigidbody.centerOfMass = attributes.centerOfMass;
+        audio.pitch = 1 + power;
+        audio.volume = (float)Mathf.Abs(gear) / 10f;
         if (!audio.isPlaying && audio.clip.isReadyToPlay)
             audio.Play();
-
-        var gear = (int)(speed / gearLength);
-        var rest = speed - gear * gearLength;
-        audio.pitch = 1 + 0.1f * gear + 0.5f * rest / gearLength;
-        audio.volume = 0.2f + 0.15f * gear;
     }
 
-    /** Handles collisions with environment objects */
-    void OnCollisionEnter(Collision collision) {
+    void OnCollisionEnter(Collision collision)
+    {
         if (collision.transform == transform)
             return;
 
-        // Apply danage and hit effect if collision beats armor
-        foreach (var contact in collision.contacts) {
-            var power = Vector3.Project(collision.relativeVelocity,
-                                        contact.normal).sqrMagnitude;
-            if (power < armor) return;
-            if ((health -= power / armor) <= 0) health = 0;
+        foreach (var contact in collision.contacts)
+        {
+            var vec = Vector3.Project(collision.relativeVelocity, contact.normal);
+            var extra = 2 - transform.InverseTransformDirection(Vector3.up).y;
+            var power = Mathf.Pow(vec.sqrMagnitude, extra);
+            if (power > attributes.armor)
+            {
+                health = Mathf.Clamp(health - power / attributes.armor, 0, 100);
+                if (health < 50 && __parts.engineEffect == null)
+                {
+                    var go = Instantiate(perfabs.crashSmoke) as GameObject;
+                    go.transform.parent = transform;
+                    go.transform.localPosition = rigidbody.centerOfMass;
+                    __parts.engineEffect = go.transform;
+                }
 
-            Instantiate(crashSparks, contact.point, Quaternion.identity);
-            if (health < 75 && engineEffect == null) {
-                var go = Instantiate(crashSmoke) as GameObject;
-                engineEffect = go.transform;
-                engineEffect.parent = stearingWheel;
-                engineEffect.localPosition = Vector3.forward;
+                Instantiate(perfabs.crashSparks,
+                    contact.point, Quaternion.identity);
             }
         }
     }
 
-    /** Handles visits to game places */
-    void OnTriggerEnter(Collider other) {
+    void OnTriggerEnter(Collider other)
+    {
         if (onTrigger != null)
             onTrigger(other.gameObject);
     }
 
-    public float stearing {
-        set {
-            value = Mathf.Clamp(value, -maxStearAngle, maxStearAngle);
-            stearingWheel.localEulerAngles = 
-                new Vector3(stearingWheel.localEulerAngles.x, 0, -value * 10);
-            foreach (var w in frontWheels) {
-                w.collider.steerAngle = value;
-                w.model.eulerAngles = transform.eulerAngles + new Vector3(
-                    0, value, 0);
-            }
-        }
+    /** @}
+     *  @addtgoup Types
+     *  @{ */
+
+    [Serializable]
+    public class Perfabs
+    {
+        public GameObject crashSparks;
+        public GameObject crashSmoke;
+        public GameObject wheelModel;
+        public AudioClip engineSound;
     }
 
-    public float pedals {
-        set {
-            var engine = (float)health / 100f; 
-            Array.ForEach(frontWheels,
-                w => w.collider.motorTorque = value * frontDrive * engine);
-            Array.ForEach(rearWheels,
-                w => w.collider.motorTorque = value * rearDrive * engine);
-        }
-    }
+    [Serializable]
+    public class Attributes
+    {
+        public Vector3 centerOfMass = new Vector3(0, -0.9f, 0);
+        public float maxStearAngle = 45;
+        public float frontDrive = 0, rearDrive = 50;
+        public float gearLength = 1500;
+        public float armor = 50;
 
-    public float speed {
-        get { return rigidbody.velocity.sqrMagnitude; }
-    }
+        public float price
+        { get {
+            return (frontDrive + rearDrive) * armor * maxStearAngle;
+        } }
 
-    /** Car model specific information */
-    public string info {
-        get {
-            return string.Join("\n", new string[] { name, "-",
-                "Total mass: " + rigidbody.mass, "Patrol type: Gas",
-                "Center mass: " + centerOfMass.y, "Stearing: " + maxStearAngle,
+        public string[] details
+        { get {
+            return new string[] {
+                "Price: " + price.ToString("0,000") + " RUR",
+                "Stearing: " + maxStearAngle, "Armor: " + armor,
                 "Front drive: " + frontDrive, "Rear drive: " + rearDrive,
-                "Armor: " + armor,
-            });
-        }
+            };
+        } }
     }
 
-    Wheel[] frontWheels, rearWheels;
-    Transform engineEffect;
-    float health = 100;
-
-    public struct Wheel {
+    [Serializable]
+    public class Wheel
+    {
         public WheelCollider collider;
         public Transform model;
     }
+
+    [Serializable]
+    public class Parts
+    {
+        public List<Wheel> frontWheels = new List<Wheel>();
+        public List<Wheel> rearWheels = new List<Wheel>();
+
+        public Wheel[] allWheels
+        { get {
+            return frontWheels.Concat(rearWheels).ToArray();
+        } }
+
+        public Transform stearingWheel;
+        public Transform engineEffect;
+    }
+
+    /** @} */
 }

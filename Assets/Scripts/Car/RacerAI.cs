@@ -1,18 +1,19 @@
-﻿using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class RacerAI : Driver {
-    public float maxSteer = 15;
-    public float maxGas = 1;
+    public float steerRatio = 15;
+    public float speedRatio = 20;
 
-    void FixedUpdate() {
-        if (!isEnabled)
-            return;
+    void FixedUpdate()
+    {
+        if (expectedPoint != null)
+        {
+            var target = expectedPoint.transform.position;
+            var point = car.driverHead.InverseTransformPoint(target);
 
-        var target = expectedPoint.transform.position;
-        var point = car.driverHead.InverseTransformPoint(target);
-
-        car.stearing = maxSteer * (point.x / point.magnitude);
-        car.pedals = maxGas * Mathf.Sign(Mathf.Abs(point.z) * 20 - car.speed);
+            car.stearing = steerRatio * (point.x / point.magnitude);
+            car.pedals = Mathf.Sign(Mathf.Abs(point.z) * speedRatio - car.speed);
+        }
     }
 }

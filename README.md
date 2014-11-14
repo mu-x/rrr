@@ -26,12 +26,12 @@ o                                  __
   - Quad L2104
   - Chisel L2109
   - Niva L2121
-* Road and off-road Russian tracks:
-  - Forest Ring
 * Different game modes:
   - Free Ride
   - Check Point Chase
   - Real Race
+* Road and off-road Russian tracks:
+  - Forest Ring
 
 ---
 

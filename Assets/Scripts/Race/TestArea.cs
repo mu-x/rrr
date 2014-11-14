@@ -1,18 +1,18 @@
-﻿using UnityEngine;
 using System.Collections;
-using System;
 using System.Linq;
+using System;
+using UnityEngine;
 
 public class TestArea : MonoBehaviour {
-	void Start () {
+    void Start () {
         cp = GetComponentInChildren<Route>().Points();
         setup(GetComponentInChildren<Player>());
         Array.ForEach(GetComponentsInChildren<RacerAI>(), setupR);
-	}
+    }
 
     void setup(Driver driver) {
         driver.Prepare(route: cp);
-        driver.isEnabled = true;
+        driver.enabled = true;
     }
 
     void setupR(RacerAI racer) {

@@ -16,10 +16,6 @@ public class RaceMode {
         player.Prepare(playerModel);
     }
 
-    public virtual void Race() {
-        player.isEnabled = true;
-    }
-
     public virtual string status {
         get {
             var min = (int)playTime / 60;

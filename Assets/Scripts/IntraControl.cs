@@ -61,19 +61,19 @@ public class IntraControl : MonoBehaviour {
             var lower = this.ScreenRect().Y(-2, 5, 2);
             var bottom = lower.Y(-1, 3).X(2, 4, 2, border: 0);
             GUI.skin.box.fontSize =
-            GUI.skin.button.fontSize = (int)(bottom.height / 3);
+            GUI.skin.button.fontSize = (int)(bottom.height / 2.5f);
 
-            GUI.Box(lower.X(1, 4), 
-                selectedCarModel.GetComponent<CarModel>().info);
+            var car = (ICarModel)selectedCarModel.GetComponent<CarModel>();
+            GUI.Box(lower.X(1, 4), string.Format("{0}\n-\n{1}",
+                car.model, car.details));
             if (GUI.Button(lower.X(-1, 4), "START\nGAME"))
                 Application.LoadLevel(levelNames[0]);
 
-            if (GUI.Button(bottom.X(1, 5, border: 0), "<")) 
+            if (GUI.Button(bottom.X(1, 5, border: 0), "<"))
                 modeSelector.Previous();
-
-            GUI.Box(bottom.X(2, 5, 3, border: 0), selectedRaceMode.info);
-            if (GUI.Button(bottom.X(-1, 5, border: 0), ">")) 
+            if (GUI.Button(bottom.X(-1, 5, border: 0), ">"))
                 modeSelector.Next();
+            GUI.Box(bottom.X(2, 5, 3, border: 0), selectedRaceMode.info);
         }
     }
 

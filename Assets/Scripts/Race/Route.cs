@@ -32,7 +32,7 @@ public class Route : MonoBehaviour {
                 return a.name.CompareTo(b.name);
             });
         }
-        
+
         return cachedPoints;
     }
 

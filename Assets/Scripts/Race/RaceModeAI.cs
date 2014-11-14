@@ -1,13 +1,13 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
+using System;
+using UnityEngine;
 
 public class RaceModeAI : RaceMode {
     public RaceModeAI(int laps = 1, int oponents = 1) {
         this.laps = laps;
-        this.oponents = oponents; 
+        this.oponents = oponents;
     }
 
     public override string info {

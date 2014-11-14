@@ -32,7 +32,7 @@ public class RaceControl : MonoBehaviour {
     }
 
     IEnumerator StartRace() {
-        Array.ForEach(GetComponentsInChildren<Driver>(), d => d.isEnabled = false);
+        Array.ForEach(GetComponentsInChildren<Driver>(), d => d.enabled = false);
         gameDalay = COUNT_DOWN.Length;
 
         var camera = Camera.main;
@@ -44,7 +44,7 @@ public class RaceControl : MonoBehaviour {
 
         // Start race after a short dalay
         AudioSource.PlayClipAtPoint(signalStart, camera.transform.position);
-        Array.ForEach(GetComponentsInChildren<Driver>(), d => d.isEnabled = true);
+        Array.ForEach(GetComponentsInChildren<Driver>(), d => d.enabled = true);
     }
 
     void FixedUpdate() {
@@ -105,7 +105,7 @@ public class RaceControl : MonoBehaviour {
             Time.timeScale = value ? 1 : 0;
 
             if (gameDalay == 0)
-                GetComponentInChildren<Player>().isEnabled = value;
+                GetComponentInChildren<Player>().enabled = value;
 
             if (!value) {
                 Array.ForEach(FindObjectsOfType<AudioSource>(), s => s.Pause());

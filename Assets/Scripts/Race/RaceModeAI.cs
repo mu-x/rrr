@@ -4,61 +4,68 @@ using System.Linq;
 using System;
 using UnityEngine;
 
-public class RaceModeAI : RaceMode {
-    public RaceModeAI(int laps = 1, int oponents = 1) {
+public class RaceModeAI : RaceMode
+{
+    int laps, oponents, position;
+
+    public RaceModeAI(int laps = 1, int oponents = 1)
+    {
         this.laps = laps;
         this.oponents = oponents;
     }
 
-    public override string info {
-        get { return "Real Race\nLaps: " + laps + ", Oponents: " + oponents; }
-    }
+    public override string info
+    { get {
+        return "Real Race\nLaps: " + laps + ", Oponents: " + oponents;
+    } }
 
-    public override void Prepare(GameObject playerModel, Action<string> endGame) {
-        UnityEngine.Random.seed = (int)(DateTime.Now.ToOADate() * 1000);
-        var cars = Resources.LoadAll<GameObject>("Car Models");
-        var route = UnityEngine.Object.FindObjectOfType<Route>().Points();
-        var all = new List<Driver>();
-        Action end = delegate() {
-            endGame(status + "\nYou " + (
-                (drivers[0] == player) ? "WON!" : "LOSE!"));
+    public override void Prepare(GameObject playerModel, Action<string> endGame)
+    {
+        base.Prepare(playerModel, endGame);
+        player.onFinish = delegate()
+        {
+            int stars = Mathf.Clamp(4 - position, 0, allDrivers.Count - position);
+            endGame(status + "\nYou won " + stars + " star(s)!");
         };
 
-        player = UnityEngine.Object.FindObjectOfType<Player>();
-        player.Prepare(playerModel, route, laps, end);
-        all.Add(player);
-
-        var ais = UnityEngine.Object.FindObjectsOfType<RacerAI>();
-        foreach (var r in ais.Take(oponents).ToArray()) {
-            int index = UnityEngine.Random.Range(0, cars.Length);
-            r.Prepare(cars[index], route, laps, end);
-            all.Add(r);
+        UnityEngine.Random.seed = (int)DateTime.Now.ToFileTime();
+        var cars = Resources.LoadAll<GameObject>("Car Models");
+        var ais = UnityEngine.Object.FindObjectsOfType<DriverAI>();
+        foreach (var ai in ais.Take(oponents).ToArray())
+        {
+            ai.carModel = cars[UnityEngine.Random.Range(0, cars.Length)];
+            allDrivers.Add(ai);
         }
 
-        drivers = all.ToArray();
+        foreach (var driver in allDrivers)
+        {
+            driver.roundsExpected = laps;
+            driver.onVisit = delegate()
+            {
+                // NOTE: Build in sort is a BULLSHIT!!
+                //       It alweys swap EQUAL values
+                // FIXME: Replace with the other sort
+                for (int i = 0; i != allDrivers.Count - 2; ++i)
+                    if (allDrivers[i].pointsPassed <
+                        allDrivers[i + 1].pointsPassed)
+                    {
+                        var tmp = allDrivers[i];
+                        allDrivers[i] = allDrivers[i + 1];
+                        allDrivers[i + 1] = tmp;
+                    }
+                position = allDrivers.IndexOf(player) + 1;
+            };
+        }
     }
 
     public override string status {
         get {
-            return string.Join("\n", new[] {
+            return string.Join("\n", new[]
+            {
                 base.status,
                 "Lap " + (player.roundsPassed + 1) + " of " + laps + " total",
-                position
+                "Position: " + position + " of " + allDrivers.Count
             });
         }
     }
-
-    public string position {
-        get {
-            Array.Sort(drivers, (a, b) => -Driver.Compare(a, b));
-            int place = Array.IndexOf(drivers, player) + 1;
-            return "Place: " + place + " of " + drivers.Length;
-        }
-    }
-
-    int oponents;
-    Driver[] drivers;
-
-    int laps;
-    Transform[] route;
 }

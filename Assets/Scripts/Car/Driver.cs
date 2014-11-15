@@ -2,61 +2,86 @@ using System.Collections;
 using System;
 using UnityEngine;
 
-/** Abstract driver in the Race */
-public abstract class Driver : MonoBehaviour {
-    public int pointsPassed = 0, roundsPassed = 0;
+/** Interface to control @class Driver from the race */
+public interface IDriver
+{
+    bool approved { set; }
+    int roundsExpected { set; }
 
-    public static int Compare(Driver a, Driver b) {
-        return a.pointsPassed.CompareTo(b.pointsPassed);
-    }
+    int pointsPassed { get; }
+    int roundsPassed { get; }
 
-    void Start() {
-        renderer.enabled = false;
-    }
+    Action onVisit { set; }
+    Action onFinish { set; }
+    GameObject carModel { set; }
+}
 
-    public virtual void Prepare(GameObject carModel = null,
-                                GameObject[] route = null,
-                                int roundsExpected = 0,
-                                Action finish = null) {
-        var newCar = (Instantiate(carModel ??
-            Resources.Load<GameObject>("Car Models/Kopeck L2101"),
-            transform.position, transform.rotation)
-            as GameObject).GetComponent<CarModel>();
+/** Abstract car driver base, gets @class Route, attaches to the
+ *  @interface CarModel and fires @interface IDriver */
+public abstract class Driver : MonoBehaviour, IDriver {
+    protected virtual bool marker { get { return false; } }
+    protected ICarModel car;
+    protected Transform expectedPoint;
+
+    ISelector cpSelector;
+
+    /** @addtgoup IDriver
+     *  @{ */
+
+    public bool approved { get;  set; }
+    public int roundsExpected { get; set; }
+
+    public int pointsPassed { get; set; }
+    public int roundsPassed { get; set; }
+
+    public Action onVisit { get; set; }
+    public Action onFinish { get; set; }
+
+    public GameObject carModel
+    { set {
+        var newCar = Instantiate(value, transform.position, transform.rotation)
+                as GameObject;
 
         newCar.transform.parent = transform;
-        car = newCar;
-        name += " " + newCar.name;
+        car = newCar.GetComponent<CarModel>();
+    } }
 
-        if (route == null)
-            return;
+    /** @}
+     *  @addtgoup MonoBehaviour
+     *  @{ */
 
-        chickpointSelector = new Selector<GameObject>(
-            route, null,
-            delegate(GameObject next) {
+    protected void Start()
+    {
+        renderer.enabled = false;
+        approved = false;
+
+        cpSelector = new Selector<Transform>(
+            FindObjectOfType<Route>().points, null,
+            delegate(Transform next)
+            {
                 pointsPassed++;
                 expectedPoint = next;
-                if (markCheckpints)
+                if (marker)
                     expectedPoint.renderer.enabled = true;
+                if (onVisit != null)
+                    onVisit();
             },
-            delegate() {
-                if (++roundsPassed == roundsExpected)
-                    finish();
+            delegate()
+            {
+                if (++roundsPassed == roundsExpected && onFinish != null)
+                    onFinish();
+            });
+
+        car.onTrigger = delegate(Transform tr)
+        {
+            if (tr == expectedPoint)
+            {
+                if (marker)
+                    expectedPoint.renderer.enabled = false;
+                cpSelector.Next();
             }
-        );
-
-        car.onTrigger = delegate(GameObject go) {
-            if (go != expectedPoint)
-                return;
-
-            chickpointSelector.Next();
-            if (markCheckpints)
-                go.renderer.enabled = false;
         };
     }
 
-    protected virtual bool markCheckpints { get { return false; } }
-
-    protected ICarModel car;
-    protected GameObject expectedPoint;
-    ISelector chickpointSelector;
+    /** @} */
 }

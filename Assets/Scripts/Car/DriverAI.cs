@@ -1,13 +1,15 @@
 using System.Collections;
 using UnityEngine;
 
-public class RacerAI : Driver {
+/** AI controlled @calss Driver */
+public class DriverAI : Driver
+{
     public float steerRatio = 15;
     public float speedRatio = 20;
 
     void FixedUpdate()
     {
-        if (expectedPoint != null)
+        if (approved && expectedPoint != null)
         {
             var target = expectedPoint.transform.position;
             var point = car.driverHead.InverseTransformPoint(target);

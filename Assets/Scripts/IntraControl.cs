@@ -3,37 +3,46 @@ using System.Collections;
 using UnityEngine;
 
 /** Car & track selection menu */
-public class IntraControl : MonoBehaviour {
+public class IntraControl : MonoBehaviour
+{
+    public GameObject[] carModels;
     public string[] levelNames = new[] { "Forest Ring" };
 
     public static GameObject selectedCarModel;
     public static RaceMode selectedRaceMode;
 
+    bool enter = true;
+    ISelector carSelector, modeSelector;
+    GameObject carObject;
+
+    /** @addtgoup MonoBehaviour
+     *  @{ */
+
     /** Initializes selector controls */
-    void Start() {
+    void Start()
+    {
         carSelector = new Selector< GameObject >(
-            Resources.LoadAll<GameObject>("Car Models"),
-            "Car Model",
-            delegate (GameObject model) {
+            carModels, "Car Model",
+            delegate (GameObject model)
+            {
                 selectedCarModel = model;
                 if (carObject != null)
                     Destroy(carObject);
 
-                var r = transform.FindChild("Respawn");
-                carObject = (GameObject)Instantiate(model, r.position, r.rotation);
+                var resp = transform.FindChild("Respawn");
+                carObject = (GameObject)Instantiate(model,
+                    resp.position, resp.rotation);
             });
 
-        var raceModes = new RaceMode[] {
+        var RACE_MODES = new RaceMode[]
+        {
             new RaceModeAI(1, 5), new RaceModeAI(3, 1),
             new RaceMode(),
             new RaceModeCC(1), new RaceModeCC(5)
         };
 
         modeSelector = new Selector<RaceMode>(
-            raceModes, "race_mode",
-            delegate (RaceMode mode) {
-                selectedRaceMode = mode;
-            });
+            RACE_MODES, "Race Mode", m => selectedRaceMode = m);
     }
 
     /** Draws menu selectors and 'start game' button */
@@ -77,9 +86,5 @@ public class IntraControl : MonoBehaviour {
         }
     }
 
-    bool enter = true;
-    ISelector carSelector;
-    string carInfo;
-    GameObject carObject;
-    ISelector modeSelector;
+    /** @} */
 }

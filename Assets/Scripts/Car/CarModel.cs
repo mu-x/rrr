@@ -8,13 +8,13 @@ using UnityEngine;
 public interface ICarModel
 {
     Transform driverHead { get; }
-    Action<GameObject> onTrigger { set; }
+    Action<Transform> onTrigger { set; }
 
     string model { get; }
     string details { get; }
 
-    float stearing { set; }
-    float pedals { set; }
+    float stearing { get; set; }
+    float pedals { get; set; }
 
     int gear { get; }
     float speed { get; }
@@ -32,7 +32,7 @@ public class CarModel : MonoBehaviour, ICarModel
      *  @{ */
 
     public Transform driverHead { get { return transform.FindChild("Head"); } }
-    public Action<GameObject> onTrigger { get; set; }
+    public Action<Transform> onTrigger { get; set; }
 
     public string model { get { return name; } }
     public string details { get { return string.Join("\n", attributes.details); } }
@@ -69,6 +69,7 @@ public class CarModel : MonoBehaviour, ICarModel
                 0, wc.name.Contains("L") ? 0 : 180, 0);
 
             // Replace old one
+            wc.renderer.enabled = false;
             var container = wc.name.Contains("F") ?
                 __parts.frontWheels : __parts.rearWheels;
             container.Add(new Wheel { collider = wc, model = tr });
@@ -157,7 +158,7 @@ public class CarModel : MonoBehaviour, ICarModel
     void OnTriggerEnter(Collider other)
     {
         if (onTrigger != null)
-            onTrigger(other.gameObject);
+            onTrigger(other.transform);
     }
 
     /** @}

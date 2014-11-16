@@ -8,7 +8,7 @@ public class Route : MonoBehaviour
 {
     public Transform[] points { get; set; }
 
-    void Start()
+    void Awake()
     {
         setupPoints();
         Array.ForEach(points, cp => cp.renderer.enabled = false);

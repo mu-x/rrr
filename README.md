@@ -31,6 +31,7 @@ o                                  __
   - Check Point Chase
   - Real Race
 * Road and off-road Russian tracks:
+  - Long Road
   - Forest Ring
 
 ---
@@ -38,10 +39,9 @@ o                                  __
 
 ## Development Plan
 
-* Enhanced menu
-* Village map: gather models prior creation
-* Open cars by achievements
+* Enhanced menu (car shop/selection, map selection gives money)
 * Russian Language Translation + Cool font in game
+* Winter map: snow textures, bushes, road signs
 * New cars: Sixth L2106, Priora L21127, Nexia D2, Logan R1
 * New tracks: Gazel Bus G3302, Gazel 4x4 G2752, Kamaz K5320
 * Car collision: deformation on damage

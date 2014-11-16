@@ -1,2 +1,7 @@
-4.0.3+ openGL 2.0 - Ise Cream Sandwich + Jelly Bean
-4.4.x+ openGL 3.0 - KitKat (because of OpenGL)
+Google Play Builds:
+
+Minimum support:
+  4.0.3+  Ise Cream Sandwich    OpenGL 2.0
+
+Buggy GL2.0 on some devices:
+  4.3+    Jelly Bean            OpenGL 3.0 bc

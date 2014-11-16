@@ -50,13 +50,25 @@ public abstract class Driver : MonoBehaviour, IDriver {
      *  @addtgoup MonoBehaviour
      *  @{ */
 
-    protected void Start()
+    void Awake()
     {
         renderer.enabled = false;
         approved = false;
+    }
+
+    protected void Start()
+    {
+        var route = FindObjectOfType<Route>();
+        if (route == null) return; // DBG
+
+        if (car == null) 
+        {
+            this.enabled = false;
+            return; // driver is not playing this race
+        }
 
         cpSelector = new Selector<Transform>(
-            FindObjectOfType<Route>().points, null,
+            route.points, null,
             delegate(Transform next)
             {
                 pointsPassed++;

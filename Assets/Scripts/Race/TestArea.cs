@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class TestArea : MonoBehaviour
 {
-    void Start ()
+    public GameObject playerModel;
+
+    void Awake()
     {
+        var player = (IDriver)UnityEngine.Object.FindObjectOfType<DriverGUI>();
+        player.carModel = playerModel;
+        player.approved = true;
     }
 }

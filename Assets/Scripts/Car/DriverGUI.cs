@@ -22,8 +22,8 @@ public class DriverGUI : Driver
         if (!approved) return;
 
         car.stearing =
-            Input.GetAxis("Horizontal") * 25 +
-            Input.acceleration.x * PlayerPrefs.GetInt("input_accelerate", 50);
+            (car.stearing * 10 + Input.GetAxis("Horizontal") * 25) / 11 +
+            Input.acceleration.x * PlayerPrefs.GetFloat("input_tilt", 2.5f);
 
         car.pedals =
             Input.GetAxis("Vertical") +
@@ -35,8 +35,6 @@ public class DriverGUI : Driver
 
     void OnGUI()
     {
-        if (!approved) return;
-
         var map = this.ScreenRect().Y(-1, 5);
         GUI.skin.box.fontSize =
         GUI.skin.button.fontSize = 15;

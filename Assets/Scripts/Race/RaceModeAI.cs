@@ -16,24 +16,26 @@ public class RaceModeAI : RaceMode
 
     public override string info
     { get {
-        return "Real Race\nLaps: " + laps + ", Oponents: " + oponents;
+        return string.Format(
+            "Race against {0} oponent(s) {1} lap(s)", oponents, laps);
     } }
 
-    public override void Prepare(GameObject playerModel, Action<string> endGame)
+    public override void Prepare(GameObject playerModel,
+                                 GameObject[] others,
+                                 Action<string> finish)
     {
-        base.Prepare(playerModel, endGame);
+        base.Prepare(playerModel, others, finish);
         player.onFinish = delegate()
         {
             int stars = Mathf.Clamp(4 - position, 0, allDrivers.Count - position);
-            endGame(status + "\nYou won " + stars + " star(s)!");
+            finish(status + "\nYou won " + stars + " star(s)!");
         };
 
         UnityEngine.Random.seed = (int)DateTime.Now.ToFileTime();
-        var cars = Resources.LoadAll<GameObject>("Car Models");
         var ais = UnityEngine.Object.FindObjectsOfType<DriverAI>();
         foreach (var ai in ais.Take(oponents).ToArray())
         {
-            ai.carModel = cars[UnityEngine.Random.Range(0, cars.Length)];
+            ai.carModel = others[UnityEngine.Random.Range(0, others.Length)];
             allDrivers.Add(ai);
         }
 
@@ -58,14 +60,9 @@ public class RaceModeAI : RaceMode
         }
     }
 
-    public override string status {
-        get {
-            return string.Join("\n", new[]
-            {
-                base.status,
-                "Lap " + (player.roundsPassed + 1) + " of " + laps + " total",
-                "Position: " + position + " of " + allDrivers.Count
-            });
-        }
-    }
+    public override string status
+    { get {
+        return string.Format("{0}\nLap {1} / {2}, Place {3} / {4}", base.status,
+            (player.roundsPassed + 1),  laps, position, allDrivers.Count);
+    } }
 }

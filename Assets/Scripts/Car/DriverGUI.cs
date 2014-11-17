@@ -1,4 +1,3 @@
-using ScreenMap;
 using System.Collections;
 using System;
 using UnityEngine;
@@ -35,19 +34,12 @@ public class DriverGUI : Driver
 
     void OnGUI()
     {
-        var map = this.ScreenRect().Y(-1, 5);
-        GUI.skin.box.fontSize =
-        GUI.skin.button.fontSize = 15;
+        var gui = new ExtraGUI(Color.white);
+        isBreak =  gui.Pusher(2, -2, 20, 25, "BREAK / REV");
+        isGas = gui.Pusher(-2, -2, 20, 25, "ACCELERATOR");
 
-        isBreak = GUI.RepeatButton(map.X(1, 4), "BREAKS");
-        isGas = GUI.RepeatButton(map.X(-1, 4), "ACCELERATOR");
-
-        var modes = Enum.GetNames(typeof(CarCamera.ViewMode));
-        carCamera.viewMode = (CarCamera.ViewMode)GUI.SelectionGrid(
-            this.ScreenRect().Y(1, 6f).X(-2, 9, 2).Y(-1, 2, 1, 0),
-            (int)carCamera.viewMode, modes, modes.Length);
-
-        GUI.Box(map.X(3, 5).Y(-1, 2), string.Format("{0}, {1} km/h, {2} %",
+        gui.Grid(-35, -3, 10, 12, ref carCamera.viewMode);
+        gui.Box(-46, -3, 19, 12, string.Format("{0}, {1} km/h, {2} %",
             (car.gear < 0) ? "R" : "G" + car.gear,
             (int)Mathf.Abs(car.speed / 100f), (int)car.health));
     }

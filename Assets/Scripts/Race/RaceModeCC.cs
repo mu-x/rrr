@@ -11,28 +11,25 @@ public class RaceModeCC : RaceMode
 
     public override string info
     { get {
-        return "Checkpoint Chase\nLaps: " + laps;
+        return string.Format("Checkpoint Chase {0} lap(s)", laps);
     } }
 
-    public override void Prepare(GameObject playerModel, Action<string> endGame)
+    public override void Prepare(GameObject playerModel,
+                                GameObject[] others,
+                                Action<string> finish)
     {
-        base.Prepare(playerModel, endGame);
+        base.Prepare(playerModel, others, finish);
         player.roundsExpected = laps;
         player.onFinish = delegate()
         {
             string spp = (playTime / player.pointsPassed).ToString("00.000");
-            endGame(status + "\n" + spp + " seconds per checkpoint");
+            finish(status + "\n" + spp + " seconds per checkpoint");
         };
     }
 
-    public override string status {
-    get {
-        return string.Join("\n", new[]
-        {
-            base.status,
-            "Lap " + (player.roundsPassed + 1) + " of " + laps + " total",
-            "Checkpoints: " + player.pointsPassed
-        });
-
+    public override string status
+    { get {
+        return string.Format("{0}\nLap {1} / {2}, Checkpoints {3}", base.status,
+            (player.roundsPassed + 1), laps, player.pointsPassed);
     } }
 }

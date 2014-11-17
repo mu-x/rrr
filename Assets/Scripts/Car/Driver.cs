@@ -61,7 +61,7 @@ public abstract class Driver : MonoBehaviour, IDriver {
         var route = FindObjectOfType<Route>();
         if (route == null) return; // DBG
 
-        if (car == null) 
+        if (car == null)
         {
             this.enabled = false;
             return; // driver is not playing this race

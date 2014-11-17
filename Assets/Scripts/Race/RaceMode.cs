@@ -7,14 +7,16 @@ using UnityEngine;
  * (default: free race, inherit+override for other kind) */
 public class RaceMode
 {
-    public virtual string info { get { return "Free Ride\nUnleashed"; } }
+    public virtual string info { get { return "Free Ride: Unleashed"; } }
 
     public virtual void FixedUpdate()
     {
         playTime += Time.deltaTime;
     }
 
-    public virtual void Prepare(GameObject playerModel, Action<string> finish)
+    public virtual void Prepare(GameObject playerModel, 
+                                GameObject[] others, 
+                                Action<string> finish)
     {
         player = (IDriver)UnityEngine.Object.FindObjectOfType<DriverGUI>();
         player.carModel = playerModel;

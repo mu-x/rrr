@@ -1,4 +1,3 @@
-using ScreenMap;
 using System.Collections;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ public class IntraControl : MonoBehaviour
     public string[] levelNames = new[] { "Long Road", "Forest Ring" };
 
     public static GameObject selectedCarModel;
+    public static GameObject[] oponentCarModels;
     public static RaceMode selectedRaceMode;
     public static string selectedTrack;
 
@@ -22,6 +22,7 @@ public class IntraControl : MonoBehaviour
     /** Initializes selector controls */
     void Start()
     {
+        oponentCarModels = carModels;
         var respawn = transform.FindChild("Respawn");
         respawn.renderer.enabled = false;
 
@@ -52,50 +53,32 @@ public class IntraControl : MonoBehaviour
     }
 
     /** Draws menu selectors and 'start game' button */
-    void OnGUI () {
-        var top = this.ScreenRect().Y(1, 4);
-        GUI.skin.label.fontSize = (int)(top.height / 1.5f);
-        GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-        GUI.skin.label.normal.textColor = Color.red;
-        GUI.Label(top, "Real Russian Racing");
+    void OnGUI ()
+    {
+        var gui = new ExtraGUI(Color.white);
+        var rrr = new ExtraGUI(Color.red);
+        rrr.Label(10, 5, 80, 25, "Real Russian Racing");
 
-        if (enter) {
-            var bottom = this.ScreenRect().Y(-1, 7).X(2, 5, 3);
-            GUI.skin.button.fontSize = (int)bottom.height / 2;
-            if (GUI.Button(bottom, "... touch to continue ...")) {
+        if (enter)
+        {
+            if (gui.Button(10, 85, 80, 10, "... touch to continue ..."))
+            {
                 enter = false;
                 Camera.main.transform.position += Vector3.down;
                 Camera.main.transform.LookAt(transform.FindChild("Respawn"));
             }
-        } else {
-            var middle = this.ScreenRect().Y(2, 4);
-            GUI.skin.button.fontSize = (int)middle.height / 2;
-            if (GUI.Button(middle.X(1, 7), "<")) carSelector.Previous();
-            if (GUI.Button(middle.X(-1, 7), ">")) carSelector.Next();
-
-            var lower = this.ScreenRect().Y(-2, 5, 2);
-            var bottom1 = lower.Y(-2, 3).X(2, 4, 2, border: 0);
-            var bottom2 = lower.Y(-1, 3).X(2, 4, 2, border: 0);
-            GUI.skin.box.fontSize =
-            GUI.skin.button.fontSize = (int)(bottom2.height / 2.5f);
-
+        }
+        else
+        {
             var car = (ICarModel)selectedCarModel.GetComponent<CarModel>();
-            GUI.Box(lower.X(1, 4), string.Format("{0}\n-\n{1}",
-                car.model, car.details));
-            if (GUI.Button(lower.X(-1, 4), "START\nGAME"))
+            var info = string.Format("{0}\n-\n{1}", car.model, car.details);
+            gui.Selection(2, 30, 96, 20, null, carSelector);
+            gui.Box(2, 60, 16, 38, info);
+
+            gui.Selection(25, 80, 50, 8, selectedTrack, trackSelector);
+            gui.Selection(25, 90, 50, 8, selectedRaceMode.info, modeSelector);
+            if (gui.Button(82, 60, 16, 38, "START\nGAME"))
                 Application.LoadLevel(selectedTrack);
-
-            if (GUI.Button(bottom1.X(1, 5, border: 0), "<"))
-                trackSelector.Previous();
-            if (GUI.Button(bottom1.X(-1, 5, border: 0), ">"))
-                trackSelector.Next();
-            GUI.Box(bottom1.X(2, 5, 3, border: 0), selectedTrack);
-
-            if (GUI.Button(bottom2.X(1, 5, border: 0), "<"))
-                modeSelector.Previous();
-            if (GUI.Button(bottom2.X(-1, 5, border: 0), ">"))
-                modeSelector.Next();
-            GUI.Box(bottom2.X(2, 5, 3, border: 0), selectedRaceMode.info);
         }
     }
 

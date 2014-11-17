@@ -110,19 +110,19 @@ public class CarModel : MonoBehaviour, ICarModel
         }
 
         // Current timed characteristics
-        speed = __parts.allWheels.Sum(w => w.collider.rpm);
+        speed = __parts.allWheels.Sum(w => w.speed()) / __parts.allWheels.Length;
         gear = (int)Mathf.Sign(speed);
 
-        var power = Mathf.Abs(speed / attributes.gearLength);
-        while (power > 1)
+        var power = Mathf.Abs(speed);
+        while (power > attributes.gearLength)
         {
-            power /= 1.5f;
+            power -= attributes.gearLength;
             gear += (int)Mathf.Sign(speed);
         }
 
         // Object
         rigidbody.centerOfMass = attributes.centerOfMass;
-        audio.pitch = 1 + power;
+        audio.pitch = 1 + power / attributes.gearLength;
         audio.volume = (float)Mathf.Abs(gear) / 10f;
         if (!audio.isPlaying && audio.clip.isReadyToPlay)
             audio.Play();
@@ -191,7 +191,7 @@ public class CarModel : MonoBehaviour, ICarModel
         public string[] details
         { get {
             return new string[] {
-                "Price: " + price.ToString("0,000") + " RUR",
+                price.ToString("0,000") + " RUR",
                 "Stearing: " + maxStearAngle, "Armor: " + armor,
                 "Front drive: " + frontDrive, "Rear drive: " + rearDrive,
             };
@@ -203,6 +203,11 @@ public class CarModel : MonoBehaviour, ICarModel
     {
         public WheelCollider collider;
         public Transform model;
+
+        public float speed()
+        {
+            return 2 * Mathf.PI * collider.rpm * collider.radius * 0.06f;
+        }
     }
 
     [Serializable]

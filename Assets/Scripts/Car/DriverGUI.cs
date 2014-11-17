@@ -22,7 +22,7 @@ public class DriverGUI : Driver
 
         car.stearing =
             (car.stearing * 10 + Input.GetAxis("Horizontal") * 25) / 11 +
-            Input.acceleration.x * PlayerPrefs.GetFloat("input_tilt", 2.5f);
+            Input.acceleration.x * PlayerPrefs.GetFloat("Stear Tilt", 2.5f);
 
         car.pedals =
             Input.GetAxis("Vertical") +
@@ -38,9 +38,8 @@ public class DriverGUI : Driver
         isBreak =  gui.Pusher(2, -2, 20, 25, "BREAK / REV");
         isGas = gui.Pusher(-2, -2, 20, 25, "ACCELERATOR");
 
-        gui.Grid(-35, -3, 10, 12, ref carCamera.viewMode);
-        gui.Box(-46, -3, 19, 12, string.Format("{0}, {1} km/h, {2} %",
+        gui.Box(35, -3, 30, 10, string.Format("{0}, {1} km/h, {2} %",
             (car.gear < 0) ? "R" : "G" + car.gear,
-            (int)Mathf.Abs(car.speed / 100f), (int)car.health));
+            (int)Mathf.Abs(car.speed / 2), (int)car.health));
     }
 }

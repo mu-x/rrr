@@ -36,10 +36,10 @@ public class RaceControl : MonoBehaviour
 
     void Awake()
     {
-        raceMode = IntraControl.selectedRaceMode ?? new RaceModeAI(1, 6); // DBG
+        raceMode = IntraControl.main.raceMode ?? new RaceModeAI(1, 6); // DBG
         raceMode.Prepare(
-            IntraControl.selectedCarModel ?? carModels.First(), // DBG
-            IntraControl.oponentCarModels ?? carModels,
+            IntraControl.main.playerModel ?? carModels.First(), // DBG
+            IntraControl.main.carModels ?? carModels,
             delegate(string message)
             {
                 isRunning = false;
@@ -91,8 +91,8 @@ public class RaceControl : MonoBehaviour
             count.Label(30, 30, 40, 40, options.text);
         }
 
-        var gui = new ExtraGUI(Color.white);
-        if (gui.Button(-2, 2, 20, 15, raceMode.status))
+        var gui = new ExtraGUI(Color.white, IntraControl.main.font);
+        if (gui.Button(-2, 2, 25, 13, raceMode.status))
             isRunning = false;
 
         if (isRunning) return; // else Menu:

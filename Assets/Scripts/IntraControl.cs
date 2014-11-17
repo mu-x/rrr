@@ -6,15 +6,16 @@ public class IntraControl : MonoBehaviour
 {
     public GameObject[] carModels;
     public string[] levelNames = new[] { "Long Road", "Forest Ring" };
+    public Font font;
 
-    public static GameObject selectedCarModel;
-    public static GameObject[] oponentCarModels;
-    public static RaceMode selectedRaceMode;
-    public static string selectedTrack;
+    public static IntraControl main;
+    public GameObject playerModel { get; set; }
+    public RaceMode raceMode { get; set; }
 
-    bool enter = true;
+    enum Page { INTRA, CAR, RACE, OPTIONS }
+    Page page = Page.INTRA;
+    string selectedTrack;
     ISelector carSelector, modeSelector, trackSelector;
-    GameObject carObject;
 
     /** @addtgoup MonoBehaviour
      *  @{ */
@@ -22,7 +23,8 @@ public class IntraControl : MonoBehaviour
     /** Initializes selector controls */
     void Start()
     {
-        oponentCarModels = carModels;
+        main = this;
+        
         var respawn = transform.FindChild("Respawn");
         respawn.renderer.enabled = false;
 
@@ -30,12 +32,13 @@ public class IntraControl : MonoBehaviour
             carModels, "Car Model",
             delegate (GameObject model)
             {
-                selectedCarModel = model;
-                if (carObject != null)
-                    Destroy(carObject);
+                if (playerModel != null)
+                    DestroyImmediate(playerModel);
 
-                carObject = (GameObject)Instantiate(model,
+                playerModel = (GameObject)Instantiate(model,
                     respawn.position, respawn.rotation);
+
+                DontDestroyOnLoad(playerModel);
             });
 
         trackSelector = new Selector<string>(
@@ -49,38 +52,51 @@ public class IntraControl : MonoBehaviour
         };
 
         modeSelector = new Selector<RaceMode>(
-            RACE_MODES, "Race Mode", m => selectedRaceMode = m);
+            RACE_MODES, "Race Mode", m => raceMode = m);
     }
 
     /** Draws menu selectors and 'start game' button */
-    void OnGUI ()
+    void OnGUI () 
     {
-        var gui = new ExtraGUI(Color.white);
-        var rrr = new ExtraGUI(Color.red);
-        rrr.Label(10, 5, 80, 25, "Real Russian Racing");
+        var rrr = new ExtraGUI(Color.red, font);
+        rrr.Label(10, 10, 80, 25, "Real Russian Racing");
 
-        if (enter)
-        {
-            if (gui.Button(10, 85, 80, 10, "... touch to continue ..."))
-            {
-                enter = false;
-                Camera.main.transform.position += Vector3.down;
-                Camera.main.transform.LookAt(transform.FindChild("Respawn"));
-            }
-        }
-        else
-        {
-            var car = (ICarModel)selectedCarModel.GetComponent<CarModel>();
-            var info = string.Format("{0}\n-\n{1}", car.model, car.details);
-            gui.Selection(2, 30, 96, 20, null, carSelector);
-            gui.Box(2, 60, 16, 38, info);
+        var gui = new ExtraGUI(Color.white, font);
+        gui.Grid(1, 1, 98, 10, ref page); 
 
-            gui.Selection(25, 80, 50, 8, selectedTrack, trackSelector);
-            gui.Selection(25, 90, 50, 8, selectedRaceMode.info, modeSelector);
-            if (gui.Button(82, 60, 16, 38, "START\nGAME"))
+        MoveCamera(page);
+        switch (page)
+        {
+            case Page.INTRA:
+                break;
+
+            case Page.CAR:
+                var car = (ICarModel)playerModel.GetComponent<CarModel>();
+                var info = string.Format("{0}\n-\n{1}", car.model, car.details);
+                gui.Selection(2, 30, 96, 20, null, carSelector, 10);
+                gui.Box(2, 60, 25, 38, info);
+                break;
+
+            case Page.RACE:
+                gui.Selection(2, 67, 55, 10, selectedTrack, trackSelector);
+                gui.Selection(2, 78, 55, 10, raceMode.info, modeSelector);
+                if (gui.Button(2, 89, 55, 10, "START RACE"))
                 Application.LoadLevel(selectedTrack);
+                break;
+
+            case Page.OPTIONS:
+                gui.SliderOption(2, 68, 45, 10, "Stear Tilt", 2.5f, 0, 5);
+                gui.ToggleOption(2, 79, 45, 10, "Real Mode", false,  "ON / OFF");
+                break;
         }
     }
 
     /** @} */
+
+    void MoveCamera(Page page)
+    {
+        Transform target = transform.FindChild(page.ToString());
+        Camera.main.transform.position = target.position;
+        Camera.main.transform.rotation = target.rotation;
+    }
 }

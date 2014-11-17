@@ -7,11 +7,12 @@ using UnityEngine;
 class ExtraGUI
 {
     public Color textColor;
-    public Texture2D bgTexture;
 
-    public ExtraGUI(Color color)
+    public ExtraGUI(Color color, Font font = null)
     {
         textColor = color;
+        if (font != null)
+            GUI.skin.font = font;
     }
 
     /** Calculates @class Rect on @class @Screen from given percents */
@@ -77,7 +78,7 @@ class ExtraGUI
         var values = Enum.GetValues(typeof(TEnum));
 
         var rect = Select(x, y, w, h);
-        SetupFont(GUI.skin.button, rect, names.First(), 0.5f);
+        SetupFont(GUI.skin.button, rect, names.First());
 
         int raw = Array.IndexOf(values, value);
         raw = GUI.SelectionGrid(rect, raw, names, names.Length);
@@ -85,14 +86,14 @@ class ExtraGUI
     }
 
     public void Selection(float x, float y, float w, float h, string text,
-                          ISelector selector)
+                          ISelector selector, float da = 6)
     {
         var field = Select(x, y, w, h);
-        var one = field.width / 10;
+        var n = field.width / da;
 
-        var left = new Rect(field.x, field.y, one, field.height);
-        var middle = new Rect(field.x + one, field.y, one * 8, field.height);
-        var right = new Rect(field.x + one * 9, field.y, one, field.height);
+        var left = new Rect(field.x, field.y, n, field.height);
+        var middle = new Rect(field.x + n, field.y, n * (da - 2), field.height);
+        var right = new Rect(field.x + n * (da - 1), field.y, n, field.height);
 
         SetupFont(GUI.skin.label, middle, text);
         if (text != null)
@@ -101,7 +102,33 @@ class ExtraGUI
             GUI.Label(middle, text);
         }
 
+        SetupFont(GUI.skin.button, middle, "<");
         if (GUI.Button(left, "<")) selector.Previous();
         if (GUI.Button(right, ">")) selector.Next();
+    }
+
+    public void SliderOption(float x, float y, float w, float h,
+                             string text, float def, float min, float max)
+    {
+        def = PlayerPrefs.GetFloat(text, def);
+        var sli = Select(x + w / 2, y, w / 2, h);
+
+        Box(x, y, w / 2f, h, text);
+        GUI.Label(sli, def.ToString());
+
+
+        def = GUI.HorizontalSlider(sli, def, min, max);
+        PlayerPrefs.SetFloat(text, def);
+
+    }
+
+    public void ToggleOption(float x, float y, float w, float h,
+                             string text, bool def, string label) 
+    {
+        def = PlayerPrefs.GetInt(text, def ? 1 : 0) != 0;
+        var lb = string.Format("{0}: {1}", text, def ? "ON" : "OFF");
+
+        def = def ^ Button(x, y, w, h, lb);
+        PlayerPrefs.SetInt(text, def ? 1 : 0);
     }
 }

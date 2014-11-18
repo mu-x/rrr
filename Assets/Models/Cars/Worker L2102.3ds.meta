@@ -1,0 +1,132 @@
+fileFormatVersion: 2
+guid: c4281f073aa75114cadd2c579261d4ba
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: BackLights
+    100002: Body
+    100004: Chrome
+    100006: Chrome_sep
+    100008: Details
+    100010: Details_se
+    100012: FrontLight
+    100014: Panels
+    100016: Seats
+    100018: Stearing
+    100020: Wheel FL
+    100022: Wheel FR
+    100024: Wheel RL
+    100026: Wheel RR
+    100028: //RootNode
+    400000: BackLights
+    400002: Body
+    400004: Chrome
+    400006: Chrome_sep
+    400008: Details
+    400010: Details_se
+    400012: FrontLight
+    400014: Panels
+    400016: Seats
+    400018: Stearing
+    400020: Wheel FL
+    400022: Wheel FR
+    400024: Wheel RL
+    400026: Wheel RR
+    400028: //RootNode
+    2300000: BackLights
+    2300002: Body
+    2300004: Chrome
+    2300006: Chrome_sep
+    2300008: Details
+    2300010: Details_se
+    2300012: FrontLight
+    2300014: Panels
+    2300016: Seats
+    2300018: Stearing
+    2300020: Wheel FL
+    2300022: Wheel FR
+    2300024: Wheel RL
+    2300026: Wheel RR
+    3300000: BackLights
+    3300002: Body
+    3300004: Chrome
+    3300006: Chrome_sep
+    3300008: Details
+    3300010: Details_se
+    3300012: FrontLight
+    3300014: Panels
+    3300016: Seats
+    3300018: Stearing
+    3300020: Wheel FL
+    3300022: Wheel FR
+    3300024: Wheel RL
+    3300026: Wheel RR
+    4300000: Details_se
+    4300002: Chrome_sep
+    4300004: Chrome
+    4300006: FrontLight
+    4300008: BackLights
+    4300010: Body
+    4300012: Wheel RR
+    4300014: Wheel RL
+    4300016: Wheel FR
+    4300018: Wheel FL
+    4300020: Stearing
+    4300022: Seats
+    4300024: Details
+    4300026: Panels
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .100000001
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

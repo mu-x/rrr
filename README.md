@@ -21,11 +21,6 @@ o                                  __
 * Realistic Russian environment:
   - Terrible quality of roads
   - Fast dangerous speed racing
-* Fast Russian cars of player choice:
-  - Kopeck L2101
-  - Quad L2104
-  - Chisel L2109
-  - Niva L2121
 * Different game modes:
   - Free Ride
   - Check Point Chase
@@ -33,6 +28,17 @@ o                                  __
 * Road and off-road Russian tracks:
   - Long Road
   - Forest Ring
+* Fast Russian cars of player choice:
+  - Kopeck L2101
+  - Worker L2102
+  - Trinity L2103
+  - Quad L2104
+  - Five L2105
+  - Shah L2106
+  - Seven L2107
+  - Chisel L2109
+  - Gangstar L2113
+  - Niva L2121
 
 ---
 

@@ -98,7 +98,7 @@ public class CarModel : MonoBehaviour, ICarModel
                 attributes.frontDrive * (health / 100);
         }
 
-        foreach (var w in __parts.frontWheels)
+        foreach (var w in __parts.rearWheels)
             w.collider.motorTorque = pedals *
                 attributes.rearDrive * (health / 100);
 
@@ -180,7 +180,7 @@ public class CarModel : MonoBehaviour, ICarModel
         public Vector3 centerOfMass = new Vector3(0, -0.9f, 0);
         public float maxStearAngle = 45;
         public float frontDrive = 0, rearDrive = 50;
-        public float gearLength = 1500;
+        public float gearLength = 50;
         public float armor = 50;
 
         public float price

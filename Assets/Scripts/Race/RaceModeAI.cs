@@ -32,11 +32,18 @@ public class RaceModeAI : RaceMode
         };
 
         UnityEngine.Random.seed = (int)DateTime.Now.ToFileTime();
+        var used = new[] { playerModel.name } .ToList();
+
         var ais = UnityEngine.Object.FindObjectsOfType<DriverAI>();
         foreach (var ai in ais.Take(oponents).ToArray())
         {
-            ai.carModel = others[UnityEngine.Random.Range(0, others.Length)];
+            GameObject model = null;
+            while (model == null || Array.IndexOf(used.ToArray(), model.name) != -1)
+                model = others[UnityEngine.Random.Range(0, others.Length)];
+
+            ai.carModel = model;
             allDrivers.Add(ai);
+            used.Add(model.name);
         }
 
         foreach (var driver in allDrivers)

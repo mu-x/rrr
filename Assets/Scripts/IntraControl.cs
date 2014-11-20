@@ -59,32 +59,45 @@ public class IntraControl : MonoBehaviour
     void OnGUI () 
     {
         var rrr = new ExtraGUI(Color.red, font);
-        rrr.Label(10, 10, 80, 25, "Real Russian Racing");
+        rrr.Label(5, 0, 90, 25, "Real Russian Racing");
 
         var gui = new ExtraGUI(Color.white, font);
-        gui.Grid(1, 1, 98, 10, ref page); 
-
         MoveCamera(page);
         switch (page)
         {
             case Page.INTRA:
+                if (gui.Button(30, -2, 40, 10, "... touch to continue ..."))
+                    page = Page.CAR;
                 break;
 
             case Page.CAR:
+                if (gui.Button(2, 2, 15, 10, "Options")) page = Page.OPTIONS;
+                if (gui.Button(-2, 2, 15, 10, "Back")) page = Page.INTRA;
+
                 var car = (ICarModel)playerModel.GetComponent<CarModel>();
                 var info = string.Format("{0}\n-\n{1}", car.model, car.details);
                 gui.Selection(2, 30, 96, 20, null, carSelector, 10);
-                gui.Box(2, 60, 25, 38, info);
+                gui.Box(2, 60, 20, 38, info);
+
+                if (gui.Button(30, -2, 40, 10, "Select Race"))
+                    page = Page.RACE;
                 break;
 
             case Page.RACE:
-                gui.Selection(2, 67, 55, 10, selectedTrack, trackSelector);
-                gui.Selection(2, 78, 55, 10, raceMode.info, modeSelector);
-                if (gui.Button(2, 89, 55, 10, "START RACE"))
-                Application.LoadLevel(selectedTrack);
+                if (gui.Button(2, 2, 15, 10, "Options")) page = Page.OPTIONS;
+                if (gui.Button(-2, 2, 15, 10, "Back")) page = Page.CAR;
+
+                gui.Selection(2, 62, 55, 10, selectedTrack, trackSelector);
+                gui.Selection(2, 73, 55, 10, raceMode.info, modeSelector);
+
+                if (gui.Button(30, -2, 40, 10, "Start Race"))
+                    Application.LoadLevel(selectedTrack);
                 break;
 
             case Page.OPTIONS:
+                if (gui.Button(2, 2, 15, 10, "Intra")) page = Page.INTRA;
+                if (gui.Button(-2, 2, 15, 10, "Back")) page = Page.CAR;
+
                 gui.SliderOption(2, 68, 45, 10, "Stear Tilt", 2.5f, 0, 5);
                 gui.ToggleOption(2, 79, 45, 10, "Real Mode", false,  "ON / OFF");
                 break;

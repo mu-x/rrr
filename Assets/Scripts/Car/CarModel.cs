@@ -50,7 +50,7 @@ public class CarModel : MonoBehaviour, ICarModel
 
     void Start()
     {
-        name = name.Replace(" Clone", "");
+        name = name.Replace("(Clone)", "");
         driverHead.renderer.enabled = false;
         gameObject.AddComponent<AudioSource>().clip = perfabs.engineSound;
         health = 100;

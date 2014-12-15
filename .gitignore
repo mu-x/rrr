@@ -8,3 +8,6 @@ obj/
 *.sln
 *.suo
 *.userprefs
+
+*.blend1
+*.blend1.meta

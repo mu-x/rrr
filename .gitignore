@@ -1,0 +1,13 @@
+Library/
+Release/
+Temp/
+obj/
+
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.userprefs
+
+*.blend1
+*.blend1.meta

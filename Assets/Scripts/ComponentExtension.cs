@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace UnityExtensions
 {
-    public static class TransformExtension
+    public static class Extension
     {
         public static void BindParent(this Transform self, Transform parent)
         {
@@ -33,10 +33,7 @@ namespace UnityExtensions
                     "{0} has not children with prefix: {1}", self, prefix));
             return found.ToArray();
         }
-    }
 
-    public static class GameObjectExtension
-    {
         public static GameObject MakeChild(this GameObject self, GameObject prefab,
                                            Transform position = null)
         {
@@ -67,6 +64,22 @@ namespace UnityExtensions
                 case 0: return self.AddComponent<T>();
                 default: return c[0];
             }
+        }
+
+        public static void checkField<T>(
+            this MonoBehaviour self, string field, T value) 
+        {
+            if (value == null) 
+                throw new System.MissingFieldException(string.Format(
+                    "Field '{0}' is null in {1}", field, self));
+        }
+
+        public static void checkField<T>(
+            this MonoBehaviour self, string field, T[] value)  
+        {
+            if (value == null || value.Length == 0) 
+                throw new System.MissingFieldException(string.Format(
+                    "Field '{0}' is null or empty in {1}", field, self));
         }
     }
 }

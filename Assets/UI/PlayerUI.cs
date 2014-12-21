@@ -18,6 +18,7 @@ public class PlayerUI : MonoBehaviour
         car.CaptureCamera();
         car.breaks = false;
         acceleration = PlayerPrefs.GetFloat("Input.Acceleration", 2.5f);
+        Debug.Log("Acc: " + acceleration, this);
     }
 
     void FixedUpdate () 

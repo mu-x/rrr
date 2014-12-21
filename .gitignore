@@ -1,5 +1,4 @@
 Library/
-Release/
 Temp/
 obj/
 
@@ -11,3 +10,4 @@ obj/
 
 *.blend1
 *.blend1.meta
+*.apk

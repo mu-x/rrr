@@ -13,10 +13,10 @@ public class CarControl : MonoBehaviour
     public float stearing;
     public bool gas, breaks = true;
 
-    public float price
+    public int price
     { get {
-        return (frontDrive + rearDrive) + (weight / 100) +
-            (frontBreak + rearBreak) / 10;
+        return Mathf.RoundToInt((frontDrive + rearDrive) * 2 + 
+            (weight / 10) + (frontBreak + rearBreak) / 3);
     } }
 
     public string info

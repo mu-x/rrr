@@ -9,8 +9,8 @@ public class PlayerUI : MonoBehaviour
     public float acceleration;
     public Action exit;
 
-    public void Gas(bool on) { car.gas = on; Debug.Log("G"); }
-    public void Breaks(bool on) { car.breaks = on; Debug.Log("B"); }
+    public void Gas(bool on) { car.gas = on; }
+    public void Breaks(bool on) { car.breaks = on; }
     public void Exit() { exit(); }
 
     void OnEnable()
@@ -18,7 +18,6 @@ public class PlayerUI : MonoBehaviour
         car.CaptureCamera();
         car.breaks = false;
         acceleration = PlayerPrefs.GetFloat("Input.Acceleration", 2.5f);
-        Debug.Log("Acc: " + acceleration, this);
     }
 
     void FixedUpdate () 

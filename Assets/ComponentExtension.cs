@@ -56,12 +56,12 @@ namespace UnityExtensions
             return go;
         }
 
-        public static T HasComponent<T>(this GameObject self) where T : Component
+        public static T HasComponent<T>(this Component self) where T : Component
         {
             var c = self.GetComponents<T>();
             switch (c.Length)
             {
-                case 0: return self.AddComponent<T>();
+                case 0: return self.gameObject.AddComponent<T>();
                 default: return c[0];
             }
         }

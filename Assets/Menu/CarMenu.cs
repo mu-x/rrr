@@ -5,15 +5,15 @@ using System.Linq;
 using System.Collections;
 using UnityExtensions;
 
-[System.Serializable]
-public class Car 
-{
-    public GameObject model;
-    public int owned;
-}
-
 public class CarMenu : MonoBehaviour
 {
+    [System.Serializable]
+    public class Car 
+    {
+        public GameObject model;
+        public int owned;
+    }
+
     public Car[] carModels;
     public int selectedModel = 0;
 
@@ -74,8 +74,8 @@ public class CarMenu : MonoBehaviour
         player.car = parent.MakeChild(car.model).GetComponent<CarControl>();
 
         carName.text = car.model.name;
-        carInfo.text = player.car.info;
+        carInfo.text = player.car.info.description;
         carPrice.text = (car.owned == 0) ?
-            string.Format("Buy\n{0} K", player.car.price) : "real\nrace";
+            string.Format("Buy\n{0} K", player.car.info.price) : "real\nrace";
     }
 }
